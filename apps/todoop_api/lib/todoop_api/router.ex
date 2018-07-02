@@ -1,27 +1,13 @@
 defmodule TodoopApi.Router do
   use TodoopApi, :router
 
-  pipeline :browser do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_flash)
-    plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers)
-  end
-
   pipeline :api do
     plug(:accepts, ["json"])
   end
 
   scope "/", TodoopApi do
-    # Use the default browser stack
-    pipe_through(:browser)
+    pipe_through(:api)
 
-    get("/", PageController, :index)
+    resources "/users", UserController, only: [:create]
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", TodoopApi do
-  #   pipe_through :api
-  # end
 end

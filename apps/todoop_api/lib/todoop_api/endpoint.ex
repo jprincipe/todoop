@@ -40,6 +40,7 @@ defmodule TodoopApi.Endpoint do
     signing_salt: "Ngo5wXWR"
   )
 
+  plug(CORSPlug)
   plug(TodoopApi.Router)
 
   @doc """

@@ -37,6 +37,7 @@ defmodule TodoopApi.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:cors_plug, "~> 1.5"},
       {:cowboy, "~> 1.0"},
       {:gettext, "~> 0.11"},
       {:phoenix, "~> 1.3.0"},

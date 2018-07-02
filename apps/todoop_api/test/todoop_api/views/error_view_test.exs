@@ -1,18 +1,25 @@
 defmodule TodoopApi.ErrorViewTest do
   use TodoopApi.ConnCase, async: true
 
-  # Bring render/3 and render_to_string/3 for testing custom views
   import Phoenix.View
 
-  test "renders 404.html" do
-    assert render_to_string(TodoopApi.ErrorView, "404.html", []) == "Page not found"
+  alias TodoopData.User
+
+  test "renders 404.json" do
+    assert render(TodoopApi.ErrorView, "404.json", []) == %{errors: %{detail: "not found"}}
   end
 
-  test "render 500.html" do
-    assert render_to_string(TodoopApi.ErrorView, "500.html", []) == "Internal server error"
+  test "renders 422.json" do
+    changeset = User.registration_changeset(%User{})
+
+    assert render(TodoopApi.ErrorView, "422.json", %{changeset: changeset}) == %{errors: %{email: ["can't be blank"]}}
+  end
+
+  test "render 500.json" do
+    assert render(TodoopApi.ErrorView, "500.json", []) == %{errors: %{detail: "internal server error"}}
   end
 
   test "render any other" do
-    assert render_to_string(TodoopApi.ErrorView, "505.html", []) == "Internal server error"
+    assert render(TodoopApi.ErrorView, "505.json", []) == %{errors: %{detail: "internal server error"}}
   end
 end

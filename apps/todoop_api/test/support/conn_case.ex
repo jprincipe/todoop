@@ -20,6 +20,7 @@ defmodule TodoopApi.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import TodoopApi.Router.Helpers
+      alias TodoopData.Repo
 
       # The default endpoint for testing
       @endpoint TodoopApi.Endpoint
@@ -27,6 +28,8 @@ defmodule TodoopApi.ConnCase do
   end
 
   setup _tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(TodoopData.Repo)
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

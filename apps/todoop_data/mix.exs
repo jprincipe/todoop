@@ -36,8 +36,10 @@ defmodule TodoopData.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 2.1"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:comeonin, "~> 4.1"},
+      {:ecto, "~> 2.1"},
+      {:postgrex, ">= 0.0.0"}
     ]
   end
 

@@ -23,6 +23,8 @@ defmodule TodoopApi do
       import Plug.Conn
       import TodoopApi.Router.Helpers
       import TodoopApi.Gettext
+
+      alias TodoopData.Repo
     end
   end
 

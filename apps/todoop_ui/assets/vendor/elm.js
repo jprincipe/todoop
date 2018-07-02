@@ -11951,13 +11951,1465 @@ var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
 var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
 var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
-var _user$project$Main$main = _elm_lang$virtual_dom$Native_VirtualDom.staticProgram(
-	_elm_lang$html$Html$text('Hello, World!'));
+var _elm_lang$html$Html_Attributes$map = _elm_lang$virtual_dom$VirtualDom$mapProperty;
+var _elm_lang$html$Html_Attributes$attribute = _elm_lang$virtual_dom$VirtualDom$attribute;
+var _elm_lang$html$Html_Attributes$contextmenu = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'contextmenu', value);
+};
+var _elm_lang$html$Html_Attributes$draggable = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'draggable', value);
+};
+var _elm_lang$html$Html_Attributes$itemprop = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'itemprop', value);
+};
+var _elm_lang$html$Html_Attributes$tabindex = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'tabIndex',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$charset = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'charset', value);
+};
+var _elm_lang$html$Html_Attributes$height = function (value) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'height',
+		_elm_lang$core$Basics$toString(value));
+};
+var _elm_lang$html$Html_Attributes$width = function (value) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'width',
+		_elm_lang$core$Basics$toString(value));
+};
+var _elm_lang$html$Html_Attributes$formaction = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'formAction', value);
+};
+var _elm_lang$html$Html_Attributes$list = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'list', value);
+};
+var _elm_lang$html$Html_Attributes$minlength = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'minLength',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$maxlength = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'maxlength',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$size = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'size',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$form = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'form', value);
+};
+var _elm_lang$html$Html_Attributes$cols = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'cols',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$rows = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'rows',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$challenge = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'challenge', value);
+};
+var _elm_lang$html$Html_Attributes$media = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'media', value);
+};
+var _elm_lang$html$Html_Attributes$rel = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'rel', value);
+};
+var _elm_lang$html$Html_Attributes$datetime = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'datetime', value);
+};
+var _elm_lang$html$Html_Attributes$pubdate = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'pubdate', value);
+};
+var _elm_lang$html$Html_Attributes$colspan = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'colspan',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$rowspan = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'rowspan',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$manifest = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'manifest', value);
+};
+var _elm_lang$html$Html_Attributes$property = _elm_lang$virtual_dom$VirtualDom$property;
+var _elm_lang$html$Html_Attributes$stringProperty = F2(
+	function (name, string) {
+		return A2(
+			_elm_lang$html$Html_Attributes$property,
+			name,
+			_elm_lang$core$Json_Encode$string(string));
+	});
+var _elm_lang$html$Html_Attributes$class = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'className', name);
+};
+var _elm_lang$html$Html_Attributes$id = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'id', name);
+};
+var _elm_lang$html$Html_Attributes$title = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'title', name);
+};
+var _elm_lang$html$Html_Attributes$accesskey = function ($char) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'accessKey',
+		_elm_lang$core$String$fromChar($char));
+};
+var _elm_lang$html$Html_Attributes$dir = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'dir', value);
+};
+var _elm_lang$html$Html_Attributes$dropzone = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'dropzone', value);
+};
+var _elm_lang$html$Html_Attributes$lang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'lang', value);
+};
+var _elm_lang$html$Html_Attributes$content = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'content', value);
+};
+var _elm_lang$html$Html_Attributes$httpEquiv = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'httpEquiv', value);
+};
+var _elm_lang$html$Html_Attributes$language = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'language', value);
+};
+var _elm_lang$html$Html_Attributes$src = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'src', value);
+};
+var _elm_lang$html$Html_Attributes$alt = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'alt', value);
+};
+var _elm_lang$html$Html_Attributes$preload = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'preload', value);
+};
+var _elm_lang$html$Html_Attributes$poster = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'poster', value);
+};
+var _elm_lang$html$Html_Attributes$kind = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'kind', value);
+};
+var _elm_lang$html$Html_Attributes$srclang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'srclang', value);
+};
+var _elm_lang$html$Html_Attributes$sandbox = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'sandbox', value);
+};
+var _elm_lang$html$Html_Attributes$srcdoc = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'srcdoc', value);
+};
+var _elm_lang$html$Html_Attributes$type_ = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'type', value);
+};
+var _elm_lang$html$Html_Attributes$value = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'value', value);
+};
+var _elm_lang$html$Html_Attributes$defaultValue = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'defaultValue', value);
+};
+var _elm_lang$html$Html_Attributes$placeholder = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'placeholder', value);
+};
+var _elm_lang$html$Html_Attributes$accept = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'accept', value);
+};
+var _elm_lang$html$Html_Attributes$acceptCharset = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'acceptCharset', value);
+};
+var _elm_lang$html$Html_Attributes$action = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'action', value);
+};
+var _elm_lang$html$Html_Attributes$autocomplete = function (bool) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'autocomplete',
+		bool ? 'on' : 'off');
+};
+var _elm_lang$html$Html_Attributes$enctype = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'enctype', value);
+};
+var _elm_lang$html$Html_Attributes$method = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'method', value);
+};
+var _elm_lang$html$Html_Attributes$name = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'name', value);
+};
+var _elm_lang$html$Html_Attributes$pattern = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'pattern', value);
+};
+var _elm_lang$html$Html_Attributes$for = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'htmlFor', value);
+};
+var _elm_lang$html$Html_Attributes$max = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'max', value);
+};
+var _elm_lang$html$Html_Attributes$min = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'min', value);
+};
+var _elm_lang$html$Html_Attributes$step = function (n) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'step', n);
+};
+var _elm_lang$html$Html_Attributes$wrap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'wrap', value);
+};
+var _elm_lang$html$Html_Attributes$usemap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'useMap', value);
+};
+var _elm_lang$html$Html_Attributes$shape = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'shape', value);
+};
+var _elm_lang$html$Html_Attributes$coords = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'coords', value);
+};
+var _elm_lang$html$Html_Attributes$keytype = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'keytype', value);
+};
+var _elm_lang$html$Html_Attributes$align = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'align', value);
+};
+var _elm_lang$html$Html_Attributes$cite = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'cite', value);
+};
+var _elm_lang$html$Html_Attributes$href = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'href', value);
+};
+var _elm_lang$html$Html_Attributes$target = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'target', value);
+};
+var _elm_lang$html$Html_Attributes$downloadAs = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'download', value);
+};
+var _elm_lang$html$Html_Attributes$hreflang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'hreflang', value);
+};
+var _elm_lang$html$Html_Attributes$ping = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'ping', value);
+};
+var _elm_lang$html$Html_Attributes$start = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'start',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$headers = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'headers', value);
+};
+var _elm_lang$html$Html_Attributes$scope = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'scope', value);
+};
+var _elm_lang$html$Html_Attributes$boolProperty = F2(
+	function (name, bool) {
+		return A2(
+			_elm_lang$html$Html_Attributes$property,
+			name,
+			_elm_lang$core$Json_Encode$bool(bool));
+	});
+var _elm_lang$html$Html_Attributes$hidden = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'hidden', bool);
+};
+var _elm_lang$html$Html_Attributes$contenteditable = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'contentEditable', bool);
+};
+var _elm_lang$html$Html_Attributes$spellcheck = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'spellcheck', bool);
+};
+var _elm_lang$html$Html_Attributes$async = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'async', bool);
+};
+var _elm_lang$html$Html_Attributes$defer = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'defer', bool);
+};
+var _elm_lang$html$Html_Attributes$scoped = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'scoped', bool);
+};
+var _elm_lang$html$Html_Attributes$autoplay = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'autoplay', bool);
+};
+var _elm_lang$html$Html_Attributes$controls = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'controls', bool);
+};
+var _elm_lang$html$Html_Attributes$loop = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'loop', bool);
+};
+var _elm_lang$html$Html_Attributes$default = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'default', bool);
+};
+var _elm_lang$html$Html_Attributes$seamless = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'seamless', bool);
+};
+var _elm_lang$html$Html_Attributes$checked = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'checked', bool);
+};
+var _elm_lang$html$Html_Attributes$selected = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'selected', bool);
+};
+var _elm_lang$html$Html_Attributes$autofocus = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'autofocus', bool);
+};
+var _elm_lang$html$Html_Attributes$disabled = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'disabled', bool);
+};
+var _elm_lang$html$Html_Attributes$multiple = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'multiple', bool);
+};
+var _elm_lang$html$Html_Attributes$novalidate = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'noValidate', bool);
+};
+var _elm_lang$html$Html_Attributes$readonly = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'readOnly', bool);
+};
+var _elm_lang$html$Html_Attributes$required = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'required', bool);
+};
+var _elm_lang$html$Html_Attributes$ismap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'isMap', value);
+};
+var _elm_lang$html$Html_Attributes$download = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'download', bool);
+};
+var _elm_lang$html$Html_Attributes$reversed = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'reversed', bool);
+};
+var _elm_lang$html$Html_Attributes$classList = function (list) {
+	return _elm_lang$html$Html_Attributes$class(
+		A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$core$Tuple$first,
+				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list))));
+};
+var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
+
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
+var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
+var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
+var _elm_lang$html$Html_Lazy$lazy = _elm_lang$virtual_dom$VirtualDom$lazy;
+
+var _user$project$Control_Model$model = {visibility: 'All'};
+var _user$project$Control_Model$Model = function (a) {
+	return {visibility: a};
+};
+
+var _user$project$Control_Msg$ChangeVisibility = function (a) {
+	return {ctor: 'ChangeVisibility', _0: a};
+};
+
+var _user$project$Todo_Msg$Update = function (a) {
+	return {ctor: 'Update', _0: a};
+};
+var _user$project$Todo_Msg$Editing = function (a) {
+	return {ctor: 'Editing', _0: a};
+};
+var _user$project$Todo_Msg$Check = function (a) {
+	return {ctor: 'Check', _0: a};
+};
+
+var _user$project$TodoList_Msg$MsgForTodo = F2(
+	function (a, b) {
+		return {ctor: 'MsgForTodo', _0: a, _1: b};
+	});
+var _user$project$TodoList_Msg$CheckAll = function (a) {
+	return {ctor: 'CheckAll', _0: a};
+};
+var _user$project$TodoList_Msg$DeleteCompleted = {ctor: 'DeleteCompleted'};
+var _user$project$TodoList_Msg$Delete = function (a) {
+	return {ctor: 'Delete', _0: a};
+};
+var _user$project$TodoList_Msg$Add = F2(
+	function (a, b) {
+		return {ctor: 'Add', _0: a, _1: b};
+	});
+
+var _user$project$Msg$MsgForControl = function (a) {
+	return {ctor: 'MsgForControl', _0: a};
+};
+var _user$project$Msg$MsgForTodoList = function (a) {
+	return {ctor: 'MsgForTodoList', _0: a};
+};
+var _user$project$Msg$MsgForTodoEntry = function (a) {
+	return {ctor: 'MsgForTodoEntry', _0: a};
+};
+var _user$project$Msg$NoOp = {ctor: 'NoOp'};
+
+var _user$project$Control_Update$updateControl = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{visibility: _p0._0});
+	});
+var _user$project$Control_Update$update = F2(
+	function (msgFor, control) {
+		var _p1 = msgFor;
+		if (_p1.ctor === 'MsgForControl') {
+			return A2(_user$project$Control_Update$updateControl, _p1._0, control);
+		} else {
+			return control;
+		}
+	});
+
+var _user$project$Todo_Model$newTodo = F2(
+	function (id, description) {
+		return {description: description, completed: false, editing: false, id: id};
+	});
+var _user$project$Todo_Model$model = A2(_user$project$Todo_Model$newTodo, 1, '');
+var _user$project$Todo_Model$Model = F4(
+	function (a, b, c, d) {
+		return {description: a, completed: b, editing: c, id: d};
+	});
+
+var _user$project$Control_View_Controls$visibilitySwap = F3(
+	function (uri, visibility, actualVisibility) {
+		return A2(
+			_elm_lang$html$Html$li,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_user$project$Msg$MsgForControl(
+						_user$project$Control_Msg$ChangeVisibility(visibility))),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href(uri),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$classList(
+								{
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'selected',
+										_1: _elm_lang$core$Native_Utils.eq(visibility, actualVisibility)
+									},
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(visibility),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Control_View_Controls$controls = F2(
+	function (visibility, todos) {
+		var todosCompleted = _elm_lang$core$List$length(
+			A2(
+				_elm_lang$core$List$filter,
+				function (_) {
+					return _.completed;
+				},
+				todos));
+		var todosLeft = _elm_lang$core$List$length(todos) - todosCompleted;
+		var item_ = _elm_lang$core$Native_Utils.eq(todosLeft, 1) ? ' item' : ' items';
+		return A2(
+			_elm_lang$html$Html$footer,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id('footer'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$hidden(
+						_elm_lang$core$List$isEmpty(todos)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('todo-count'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$strong,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_elm_lang$core$Basics$toString(todosLeft)),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(_elm_lang$core$Basics_ops['++'], item_, ' left')),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$ul,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$id('filters'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A3(_user$project$Control_View_Controls$visibilitySwap, '#/', 'All', visibility),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(' '),
+								_1: {
+									ctor: '::',
+									_0: A3(_user$project$Control_View_Controls$visibilitySwap, '#/active', 'Active', visibility),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(' '),
+										_1: {
+											ctor: '::',
+											_0: A3(_user$project$Control_View_Controls$visibilitySwap, '#/completed', 'Completed', visibility),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('clear-completed'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id('clear-completed'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$hidden(
+											_elm_lang$core$Native_Utils.eq(todosCompleted, 0)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Msg$MsgForTodoList(_user$project$TodoList_Msg$DeleteCompleted)),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'Clear completed (',
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(todosCompleted),
+											')'))),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+
+var _user$project$TodoList_Model$model = {ctor: '[]'};
+
+var _user$project$Model$withSetStorage = F2(
+	function (setStorage, _p0) {
+		var _p1 = _p0;
+		var _p2 = _p1._0;
+		return {
+			ctor: '_Tuple2',
+			_0: _p2,
+			_1: _elm_lang$core$Platform_Cmd$batch(
+				{
+					ctor: '::',
+					_0: setStorage(_p2),
+					_1: {
+						ctor: '::',
+						_0: _p1._1,
+						_1: {ctor: '[]'}
+					}
+				})
+		};
+	});
+var _user$project$Model$initialModel = {todoEntry: _user$project$Todo_Model$model, todoList: _user$project$TodoList_Model$model, control: _user$project$Control_Model$model};
+var _user$project$Model$init = function (savedModel) {
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		A2(_elm_lang$core$Maybe$withDefault, _user$project$Model$initialModel, savedModel),
+		{ctor: '[]'});
+};
+var _user$project$Model$Model = F3(
+	function (a, b, c) {
+		return {todoEntry: a, todoList: b, control: c};
+	});
+
+var _user$project$Todo_Update$updateTodo = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Check':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{completed: _p0._0});
+			case 'Editing':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{editing: _p0._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{description: _p0._0});
+		}
+	});
+var _user$project$Todo_Update$update = F2(
+	function (msgFor, todo) {
+		var _p1 = msgFor;
+		_v1_2:
+		do {
+			switch (_p1.ctor) {
+				case 'MsgForTodoEntry':
+					return A2(_user$project$Todo_Update$updateTodo, _p1._0, todo);
+				case 'MsgForTodoList':
+					if (_p1._0.ctor === 'Add') {
+						return A2(_user$project$Todo_Model$newTodo, _p1._0._0 + 1, '');
+					} else {
+						break _v1_2;
+					}
+				default:
+					break _v1_2;
+			}
+		} while(false);
+		return todo;
+	});
+
+var _user$project$TodoList_Update$updateCmd = F2(
+	function (focus, msg) {
+		var _p0 = msg;
+		if (((_p0.ctor === 'MsgForTodoList') && (_p0._0.ctor === 'MsgForTodo')) && (_p0._0._1.ctor === 'Editing')) {
+			return focus(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'#todo-',
+					_elm_lang$core$Basics$toString(_p0._0._0)));
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
+	});
+var _user$project$TodoList_Update$updateTodo = F3(
+	function (id, msg, todoList) {
+		var updateTodo = function (todo) {
+			return _elm_lang$core$Native_Utils.eq(todo.id, id) ? A2(_user$project$Todo_Update$updateTodo, msg, todo) : todo;
+		};
+		return A2(_elm_lang$core$List$map, updateTodo, todoList);
+	});
+var _user$project$TodoList_Update$updateTodoList = F2(
+	function (msg, todoList) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Add':
+				var _p2 = _p1._1;
+				return _elm_lang$core$String$isEmpty(_p2) ? todoList : A2(
+					_elm_lang$core$Basics_ops['++'],
+					todoList,
+					{
+						ctor: '::',
+						_0: A2(_user$project$Todo_Model$newTodo, _p1._0, _p2),
+						_1: {ctor: '[]'}
+					});
+			case 'Delete':
+				return A2(
+					_elm_lang$core$List$filter,
+					function (t) {
+						return !_elm_lang$core$Native_Utils.eq(t.id, _p1._0);
+					},
+					todoList);
+			case 'DeleteCompleted':
+				return A2(
+					_elm_lang$core$List$filter,
+					function (_p3) {
+						return !function (_) {
+							return _.completed;
+						}(_p3);
+					},
+					todoList);
+			case 'CheckAll':
+				var updateTodo = function (t) {
+					return A2(
+						_user$project$Todo_Update$updateTodo,
+						_user$project$Todo_Msg$Check(_p1._0),
+						t);
+				};
+				return A2(_elm_lang$core$List$map, updateTodo, todoList);
+			default:
+				return A3(_user$project$TodoList_Update$updateTodo, _p1._0, _p1._1, todoList);
+		}
+	});
+var _user$project$TodoList_Update$update = F2(
+	function (msgFor, todoList) {
+		var _p4 = msgFor;
+		if (_p4.ctor === 'MsgForTodoList') {
+			return A2(_user$project$TodoList_Update$updateTodoList, _p4._0, todoList);
+		} else {
+			return todoList;
+		}
+	});
+
+var _user$project$Update$updateCmd = F2(
+	function (focus, msg) {
+		return _elm_lang$core$Platform_Cmd$batch(
+			{
+				ctor: '::',
+				_0: A2(_user$project$TodoList_Update$updateCmd, focus, msg),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Update$update = F2(
+	function (msg, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				todoEntry: A2(_user$project$Todo_Update$update, msg, model.todoEntry),
+				todoList: A2(_user$project$TodoList_Update$update, msg, model.todoList),
+				control: A2(_user$project$Control_Update$update, msg, model.control)
+			});
+	});
+var _user$project$Update$updateWithCmd = F3(
+	function (focus, msg, model) {
+		return {
+			ctor: '_Tuple2',
+			_0: A2(_user$project$Update$update, msg, model),
+			_1: A2(_user$project$Update$updateCmd, focus, msg)
+		};
+	});
+
+var _user$project$Todo_View_Events$onEnter = F2(
+	function (fail, success) {
+		var tagger = function (code) {
+			return _elm_lang$core$Native_Utils.eq(code, 13) ? success : fail;
+		};
+		return A2(
+			_elm_lang$html$Html_Events$on,
+			'keyup',
+			A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$keyCode));
+	});
+
+var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
+	return A2(
+		_elm_lang$html$Html$header,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$id('header'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('todos'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('new-todo'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('What needs to be done ?'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$autofocus(true),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$value(todoEntry.description),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$name('newTodo'),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html_Events$on,
+												'input',
+												A2(
+													_elm_lang$core$Json_Decode$map,
+													function (_p0) {
+														return _user$project$Msg$MsgForTodoEntry(
+															_user$project$Todo_Msg$Update(_p0));
+													},
+													_elm_lang$html$Html_Events$targetValue)),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_user$project$Todo_View_Events$onEnter,
+													_user$project$Msg$NoOp,
+													_user$project$Msg$MsgForTodoList(
+														A2(_user$project$TodoList_Msg$Add, todoEntry.id, todoEntry.description))),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
+var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'completed', _1: todo.completed},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'editing', _1: todo.editing},
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('view'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('toggle'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(todo.completed),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForTodoList(
+												A2(
+													_user$project$TodoList_Msg$MsgForTodo,
+													todo.id,
+													_user$project$Todo_Msg$Check(!todo.completed)))),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onDoubleClick(
+									_user$project$Msg$MsgForTodoList(
+										A2(
+											_user$project$TodoList_Msg$MsgForTodo,
+											todo.id,
+											_user$project$Todo_Msg$Editing(true)))),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(todo.description),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('destroy'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForTodoList(
+												_user$project$TodoList_Msg$Delete(todo.id))),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('edit'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value(todo.description),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$name('title'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											'todo-',
+											_elm_lang$core$Basics$toString(todo.id))),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html_Events$on,
+											'input',
+											A2(
+												_elm_lang$core$Json_Decode$map,
+												function (_p0) {
+													return _user$project$Msg$MsgForTodoList(
+														A2(
+															_user$project$TodoList_Msg$MsgForTodo,
+															todo.id,
+															_user$project$Todo_Msg$Update(_p0)));
+												},
+												_elm_lang$html$Html_Events$targetValue)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onBlur(
+												_user$project$Msg$MsgForTodoList(
+													A2(
+														_user$project$TodoList_Msg$MsgForTodo,
+														todo.id,
+														_user$project$Todo_Msg$Editing(false)))),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_user$project$Todo_View_Events$onEnter,
+													_user$project$Msg$NoOp,
+													_user$project$Msg$MsgForTodoList(
+														A2(
+															_user$project$TodoList_Msg$MsgForTodo,
+															todo.id,
+															_user$project$Todo_Msg$Editing(false)))),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
+var _user$project$TodoList_View_TodoList$todoList = F2(
+	function (visibility, todos) {
+		var cssVisibility = _elm_lang$core$List$isEmpty(todos) ? 'hidden' : 'visible';
+		var allCompleted = A2(
+			_elm_lang$core$List$all,
+			function (_) {
+				return _.completed;
+			},
+			todos);
+		var isVisible = function (todo) {
+			var _p0 = visibility;
+			switch (_p0) {
+				case 'Completed':
+					return todo.completed;
+				case 'Active':
+					return !todo.completed;
+				default:
+					return true;
+			}
+		};
+		return A2(
+			_elm_lang$html$Html$section,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id('main'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'visibility', _1: cssVisibility},
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('toggle-all'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$name('toggle'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(allCompleted),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForTodoList(
+												_user$project$TodoList_Msg$CheckAll(!allCompleted))),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$for('toggle-all'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Mark all as complete'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ul,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$id('todo-list'),
+								_1: {ctor: '[]'}
+							},
+							A2(
+								_elm_lang$core$List$map,
+								_user$project$TodoList_View_TodoItem$todoItem,
+								A2(_elm_lang$core$List$filter, isVisible, todos))),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+
+var _user$project$View_InfoFooter$infoFooter = A2(
+	_elm_lang$html$Html$footer,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$id('info'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$p,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Double-click to edit a todo'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$p,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Written by '),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href('https://github.com/evancz'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Evan Czaplicki'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Part of '),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href('http://todomvc.com'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('TodoMVC'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
+		}
+	});
+
+var _user$project$View_TodoApp$view = function (model) {
+	var control = model.control;
+	var todoEntry = model.todoEntry;
+	var todoList = model.todoList;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('todomvc-wrapper'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'visibility', _1: 'hidden'},
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$section,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$id('todoapp'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(_elm_lang$html$Html_Lazy$lazy, _user$project$Todo_View_TodoEntry$todoEntry, todoEntry),
+					_1: {
+						ctor: '::',
+						_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$TodoList_View_TodoList$todoList, control.visibility, todoList),
+						_1: {
+							ctor: '::',
+							_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Control_View_Controls$controls, control.visibility, todoList),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View_InfoFooter$infoFooter,
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
+var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
+	'setStorage',
+	function (v) {
+		return {
+			todoEntry: {description: v.todoEntry.description, completed: v.todoEntry.completed, editing: v.todoEntry.editing, id: v.todoEntry.id},
+			todoList: _elm_lang$core$Native_List.toArray(v.todoList).map(
+				function (v) {
+					return {description: v.description, completed: v.completed, editing: v.editing, id: v.id};
+				}),
+			control: {visibility: v.control.visibility}
+		};
+	});
+var _user$project$Main$focus = _elm_lang$core$Native_Platform.outgoingPort(
+	'focus',
+	function (v) {
+		return v;
+	});
+var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+	{
+		init: _user$project$Model$init,
+		view: _user$project$View_TodoApp$view,
+		update: F2(
+			function (msg, model) {
+				return A2(
+					_user$project$Model$withSetStorage,
+					_user$project$Main$setStorage,
+					A3(_user$project$Update$updateWithCmd, _user$project$Main$focus, msg, model));
+			}),
+		subscriptions: function (_p0) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})(
+	_elm_lang$core$Json_Decode$oneOf(
+		{
+			ctor: '::',
+			_0: _elm_lang$core$Json_Decode$null(_elm_lang$core$Maybe$Nothing),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$core$Json_Decode$map,
+					_elm_lang$core$Maybe$Just,
+					A2(
+						_elm_lang$core$Json_Decode$andThen,
+						function (control) {
+							return A2(
+								_elm_lang$core$Json_Decode$andThen,
+								function (todoEntry) {
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (todoList) {
+											return _elm_lang$core$Json_Decode$succeed(
+												{control: control, todoEntry: todoEntry, todoList: todoList});
+										},
+										A2(
+											_elm_lang$core$Json_Decode$field,
+											'todoList',
+											_elm_lang$core$Json_Decode$list(
+												A2(
+													_elm_lang$core$Json_Decode$andThen,
+													function (completed) {
+														return A2(
+															_elm_lang$core$Json_Decode$andThen,
+															function (description) {
+																return A2(
+																	_elm_lang$core$Json_Decode$andThen,
+																	function (editing) {
+																		return A2(
+																			_elm_lang$core$Json_Decode$andThen,
+																			function (id) {
+																				return _elm_lang$core$Json_Decode$succeed(
+																					{completed: completed, description: description, editing: editing, id: id});
+																			},
+																			A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																	},
+																	A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+															},
+															A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+													},
+													A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
+								},
+								A2(
+									_elm_lang$core$Json_Decode$field,
+									'todoEntry',
+									A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (completed) {
+											return A2(
+												_elm_lang$core$Json_Decode$andThen,
+												function (description) {
+													return A2(
+														_elm_lang$core$Json_Decode$andThen,
+														function (editing) {
+															return A2(
+																_elm_lang$core$Json_Decode$andThen,
+																function (id) {
+																	return _elm_lang$core$Json_Decode$succeed(
+																		{completed: completed, description: description, editing: editing, id: id});
+																},
+																A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+														},
+														A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+												},
+												A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+										},
+										A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool))));
+						},
+						A2(
+							_elm_lang$core$Json_Decode$field,
+							'control',
+							A2(
+								_elm_lang$core$Json_Decode$andThen,
+								function (visibility) {
+									return _elm_lang$core$Json_Decode$succeed(
+										{visibility: visibility});
+								},
+								A2(_elm_lang$core$Json_Decode$field, 'visibility', _elm_lang$core$Json_Decode$string))))),
+				_1: {ctor: '[]'}
+			}
+		}));
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{},"aliases":{},"message":"a"},"versions":{"elm":"0.18.0"}});
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Control.Msg.Msg":{"args":[],"tags":{"ChangeVisibility":["String"]}},"TodoList.Msg.Msg":{"args":[],"tags":{"MsgForTodo":["Int","Todo.Msg.Msg"],"Add":["Int","String"],"DeleteCompleted":[],"CheckAll":["Bool"],"Delete":["Int"]}},"Todo.Msg.Msg":{"args":[],"tags":{"Editing":["Bool"],"Check":["Bool"],"Update":["String"]}},"Msg.Msg":{"args":[],"tags":{"MsgForControl":["Control.Msg.Msg"],"MsgForTodoList":["TodoList.Msg.Msg"],"MsgForTodoEntry":["Todo.Msg.Msg"],"NoOp":[]}}},"aliases":{},"message":"Msg.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

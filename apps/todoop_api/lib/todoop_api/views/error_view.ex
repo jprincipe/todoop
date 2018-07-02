@@ -20,11 +20,4 @@ defmodule TodoopApi.ErrorView do
   def template_not_found(_template, assigns) do
     render("500.json", assigns)
   end
-
-  defp errors(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, fn
-      {msg, opts} -> String.replace(msg, "%{count}", to_string(opts[:count]))
-      msg -> msg
-    end)
-  end
 end

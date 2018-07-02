@@ -41,7 +41,6 @@ defmodule TodoopApi.Mixfile do
       {:cowboy, "~> 1.0"},
       {:gettext, "~> 0.11"},
       {:phoenix, "~> 1.3.0"},
-      {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},
       {:todoop_data, in_umbrella: true}

@@ -26,9 +26,11 @@ exports.config = {
       ignore: [/vendor/]
     },
     elmBrunch: {
-      mainModules: ["elm/Main.elm"],
+      elmFolder: 'elm',
+      executablePath: '../node_modules/elm/binwrappers',
+      mainModules: ["Main.elm"],
       makeParameters: ["--debug"],
-      outputFolder: "vendor/",
+      outputFolder: "../vendor/",
       outputFile: "elm.js"
     }
   },

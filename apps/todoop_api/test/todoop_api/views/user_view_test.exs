@@ -7,7 +7,6 @@ defmodule TodoopApi.UserViewTest do
 
   test "renders user.json" do
     user = %User{id: 1, email: "foo@bar.com"}
-    jwt = "abcdefg"
-    assert render(TodoopApi.UserView, "user.json", %{user: user, jwt: jwt}) == %{id: user.id, email: user.email, jwt: jwt}
+    assert render(TodoopApi.UserView, "user.json", %{user: user}) == %{id: user.id, email: user.email}
   end
 end

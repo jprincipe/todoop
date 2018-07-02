@@ -9,13 +9,11 @@ defmodule TodoopApi.SessionControllerTest do
 
   test "authenticates valid user", %{conn: conn} do
     user_params = %{email: "foo@bar.com", password: "s3cr3t"}
-    source_user = %User{} |> User.registration_changeset(user_params) |> Repo.insert!()
+    %User{} |> User.registration_changeset(user_params) |> Repo.insert!()
 
     conn = post conn, session_path(conn, :create), user_params
     body = json_response(conn, 200)
-    assert body["id"] == source_user.id
-    assert body["email"] == source_user.email
-    refute is_nil(body["jwt"])
+    assert body["token"]
   end
 
   test "returns unauthorized for unknown user", %{conn: conn} do

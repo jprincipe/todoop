@@ -15,11 +15,17 @@ defmodule TodoopApi.UserController do
 
         conn
         |> put_status(:created)
-        |> render("user.json", user: user, jwt: token)
+        |> render("token.json", token: token)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
         |> render(TodoopApi.ErrorView, "422.json", changeset: changeset)
     end
+  end
+
+  def show(conn, _params) do
+     user = Guardian.Plug.current_resource(conn)
+
+     render(conn, "user.json", user: user)
   end
 end

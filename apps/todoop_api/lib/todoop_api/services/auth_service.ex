@@ -1,4 +1,6 @@
 defmodule TodoopApi.AuthService do
+  import Plug.Conn
+
   alias TodoopData.Repo
   alias TodoopData.User
 
@@ -9,10 +11,16 @@ defmodule TodoopApi.AuthService do
       {:ok, user} ->
         {:ok, token, _claims} = TodoopApi.Guardian.encode_and_sign(user)
 
-        {:ok, user: user, jwt: token}
+        {:ok, token: token}
       _ ->
         {:error, :unauthorized}
     end
+  end
+
+  def auth_error(conn, {_type, _reason}, _opts) do
+    conn
+    |> put_status(:unauthorized)
+    |> Phoenix.Controller.render(TodoopApi.ErrorView, "401.json")
   end
 
   defp verify_user(email, password) when is_binary(email) and is_binary(password) do

@@ -6,15 +6,12 @@ defmodule TodoopApi.AuthServiceTest do
 
   test "authenticates valid user" do
     user_params = %{email: "foo@bar.com", password: "s3cr3t"}
-    source_user = %User{} |> User.registration_changeset(user_params) |> Repo.insert!()
+    %User{} |> User.registration_changeset(user_params) |> Repo.insert!()
 
-    {result, user: user, jwt: jwt} = AuthService.authenticate(user_params[:email], user_params[:password])
+    {result, token: token} = AuthService.authenticate(user_params[:email], user_params[:password])
 
     assert result == :ok
-    assert user
-    assert user.email == source_user.email
-    assert user.id == source_user.id
-    assert jwt
+    assert token
   end
 
   test "returns unauthorized for unknown user" do

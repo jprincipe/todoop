@@ -5,8 +5,8 @@ defmodule TodoopApi.SessionController do
 
   def create(conn, %{"email" => email, "password" => password}) do
     case AuthService.authenticate(email, password) do
-      {:ok, user: user, jwt: jwt} ->
-        render(conn, TodoopApi.UserView, "user.json", user: user, jwt: jwt)
+      {:ok, token: token} ->
+        render(conn, TodoopApi.UserView, "token.json", token: token)
       _ ->
         conn
         |> put_status(:unauthorized)

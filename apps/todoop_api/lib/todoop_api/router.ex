@@ -5,9 +5,10 @@ defmodule TodoopApi.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", TodoopApi do
+  scope "/v1", TodoopApi do
     pipe_through(:api)
 
-    resources "/users", UserController, only: [:create]
+    post "/register", UserController, :create
+    post "/login", SessionController, :create
   end
 end

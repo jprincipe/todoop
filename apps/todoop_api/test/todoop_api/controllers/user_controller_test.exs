@@ -13,9 +13,10 @@ defmodule TodoopApi.UserControllerTest do
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, user_path(conn, :create), user: @valid_attrs
     body = json_response(conn, 201)
-    assert body["data"]["id"]
-    assert body["data"]["email"]
-    refute body["data"]["password"]
+    assert body["id"]
+    assert body["email"]
+    refute is_nil(body["jwt"])
+    refute body["password"]
     assert Repo.get_by(User, email: "foo@bar.com")
   end
 
@@ -23,5 +24,4 @@ defmodule TodoopApi.UserControllerTest do
     conn = post conn, user_path(conn, :create), user: @invalid_attrs
     assert json_response(conn, 422)["errors"] != %{}
   end
-
 end

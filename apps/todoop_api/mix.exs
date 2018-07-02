@@ -40,6 +40,7 @@ defmodule TodoopApi.Mixfile do
       {:cors_plug, "~> 1.5"},
       {:cowboy, "~> 1.0"},
       {:gettext, "~> 0.11"},
+      {:guardian, "~> 1.1"},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},

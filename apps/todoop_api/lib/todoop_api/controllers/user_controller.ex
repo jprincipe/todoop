@@ -2,6 +2,7 @@ defmodule TodoopApi.UserController do
   use TodoopApi, :controller
 
   alias TodoopData.User
+  alias TodoopApi.Guardian
 
   plug :scrub_params, "user" when action in [:create]
 
@@ -10,9 +11,11 @@ defmodule TodoopApi.UserController do
 
     case Repo.insert(changeset) do
       {:ok, user} ->
+        {:ok, token, _claims} = Guardian.encode_and_sign(user)
+
         conn
         |> put_status(:created)
-        |> render("show.json", user: user)
+        |> render("user.json", user: user, jwt: token)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

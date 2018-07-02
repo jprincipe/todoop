@@ -15,6 +15,11 @@ config :todoop_api, TodoopApi.Endpoint,
   render_errors: [view: TodoopApi.ErrorView, accepts: ~w(html json)],
   pubsub: [name: TodoopApi.PubSub, adapter: Phoenix.PubSub.PG2]
 
+# Guardian config
+config :todoop_api, TodoopApi.Guardian,
+  issuer: "todoop",
+  secret_key: System.get_env("GUARDIAN_SECRET")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -2,7 +2,7 @@ module Todo.Model exposing (..)
 
 
 type alias Model =
-    { description : String
+    { title : String
     , completed : Bool
     , editing : Bool
     , id : Int
@@ -10,8 +10,8 @@ type alias Model =
 
 
 newTodo : Int -> String -> Model
-newTodo id description =
-    { description = description
+newTodo id title =
+    { title = title
     , completed = False
     , editing = False
     , id = id

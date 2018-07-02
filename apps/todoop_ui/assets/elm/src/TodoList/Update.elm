@@ -22,11 +22,11 @@ update msgFor todoList =
 updateTodoList : TodoList.Msg -> Model -> Model
 updateTodoList msg todoList =
     case msg of
-        Add id description ->
-            if String.isEmpty description then
+        Add id title ->
+            if String.isEmpty title then
                 todoList
             else
-                todoList ++ [ newTodo id description ]
+                todoList ++ [ newTodo id title ]
 
         Delete id ->
             List.filter (\t -> t.id /= id) todoList

@@ -23,7 +23,7 @@ todoItem todo =
                 ]
                 []
             , label [ onDoubleClick (MsgForTodoList <| MsgForTodo todo.id <| Editing True) ]
-                [ text todo.description ]
+                [ text todo.title ]
             , button
                 [ class "destroy"
                 , onClick (MsgForTodoList <| Delete todo.id)
@@ -32,7 +32,7 @@ todoItem todo =
             ]
         , input
             [ class "edit"
-            , value todo.description
+            , value todo.title
             , name "title"
             , id ("todo-" ++ toString todo.id)
             , on "input" (Json.map (MsgForTodoList << MsgForTodo todo.id << Update) targetValue)

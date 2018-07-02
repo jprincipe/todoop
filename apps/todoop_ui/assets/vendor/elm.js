@@ -12484,13 +12484,13 @@ var _user$project$Control_Update$update = F2(
 	});
 
 var _user$project$Todo_Model$newTodo = F2(
-	function (id, description) {
-		return {description: description, completed: false, editing: false, id: id};
+	function (id, title) {
+		return {title: title, completed: false, editing: false, id: id};
 	});
 var _user$project$Todo_Model$model = A2(_user$project$Todo_Model$newTodo, 1, '');
 var _user$project$Todo_Model$Model = F4(
 	function (a, b, c, d) {
-		return {description: a, completed: b, editing: c, id: d};
+		return {title: a, completed: b, editing: c, id: d};
 	});
 
 var _user$project$Control_View_Controls$visibilitySwap = F3(
@@ -12703,7 +12703,7 @@ var _user$project$Todo_Update$updateTodo = F2(
 			default:
 				return _elm_lang$core$Native_Utils.update(
 					model,
-					{description: _p0._0});
+					{title: _p0._0});
 		}
 	});
 var _user$project$Todo_Update$update = F2(
@@ -12871,7 +12871,7 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 								_0: _elm_lang$html$Html_Attributes$autofocus(true),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(todoEntry.description),
+									_0: _elm_lang$html$Html_Attributes$value(todoEntry.title),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$name('newTodo'),
@@ -12893,7 +12893,7 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 													_user$project$Todo_View_Events$onEnter,
 													_user$project$Msg$NoOp,
 													_user$project$Msg$MsgForTodoList(
-														A2(_user$project$TodoList_Msg$Add, todoEntry.id, todoEntry.description))),
+														A2(_user$project$TodoList_Msg$Add, todoEntry.id, todoEntry.title))),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -12977,7 +12977,7 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(todo.description),
+								_0: _elm_lang$html$Html$text(todo.title),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -13009,7 +13009,7 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 						_0: _elm_lang$html$Html_Attributes$class('edit'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value(todo.description),
+							_0: _elm_lang$html$Html_Attributes$value(todo.title),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$name('title'),
@@ -13290,10 +13290,10 @@ var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
 	'setStorage',
 	function (v) {
 		return {
-			todoEntry: {description: v.todoEntry.description, completed: v.todoEntry.completed, editing: v.todoEntry.editing, id: v.todoEntry.id},
+			todoEntry: {title: v.todoEntry.title, completed: v.todoEntry.completed, editing: v.todoEntry.editing, id: v.todoEntry.id},
 			todoList: _elm_lang$core$Native_List.toArray(v.todoList).map(
 				function (v) {
-					return {description: v.description, completed: v.completed, editing: v.editing, id: v.id};
+					return {title: v.title, completed: v.completed, editing: v.editing, id: v.id};
 				}),
 			control: {visibility: v.control.visibility}
 		};
@@ -13348,21 +13348,21 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 													function (completed) {
 														return A2(
 															_elm_lang$core$Json_Decode$andThen,
-															function (description) {
+															function (editing) {
 																return A2(
 																	_elm_lang$core$Json_Decode$andThen,
-																	function (editing) {
+																	function (id) {
 																		return A2(
 																			_elm_lang$core$Json_Decode$andThen,
-																			function (id) {
+																			function (title) {
 																				return _elm_lang$core$Json_Decode$succeed(
-																					{completed: completed, description: description, editing: editing, id: id});
+																					{completed: completed, editing: editing, id: id, title: title});
 																			},
-																			A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																			A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
 																	},
-																	A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+																	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 															},
-															A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+															A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 													},
 													A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
 								},
@@ -13374,21 +13374,21 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 										function (completed) {
 											return A2(
 												_elm_lang$core$Json_Decode$andThen,
-												function (description) {
+												function (editing) {
 													return A2(
 														_elm_lang$core$Json_Decode$andThen,
-														function (editing) {
+														function (id) {
 															return A2(
 																_elm_lang$core$Json_Decode$andThen,
-																function (id) {
+																function (title) {
 																	return _elm_lang$core$Json_Decode$succeed(
-																		{completed: completed, description: description, editing: editing, id: id});
+																		{completed: completed, editing: editing, id: id, title: title});
 																},
-																A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
 														},
-														A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+														A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 												},
-												A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+												A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 										},
 										A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool))));
 						},

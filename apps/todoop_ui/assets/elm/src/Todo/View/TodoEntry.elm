@@ -19,10 +19,10 @@ todoEntry todoEntry =
             [ id "new-todo"
             , placeholder "What needs to be done ?"
             , autofocus True
-            , value todoEntry.description
+            , value todoEntry.title
             , name "newTodo"
             , on "input" (Json.map (MsgForTodoEntry << Update) targetValue)
-            , onEnter NoOp (MsgForTodoList <| Add todoEntry.id todoEntry.description)
+            , onEnter NoOp (MsgForTodoList <| Add todoEntry.id todoEntry.title)
             ]
             []
         ]

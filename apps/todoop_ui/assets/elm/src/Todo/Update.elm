@@ -28,5 +28,5 @@ updateTodo msg model =
         Editing isEditing ->
             { model | editing = isEditing }
 
-        Update description ->
-            { model | description = description }
+        Update title ->
+            { model | title = title }

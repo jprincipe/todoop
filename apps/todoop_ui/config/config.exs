@@ -6,8 +6,7 @@
 use Mix.Config
 
 # General application configuration
-config :todoop_ui,
-  namespace: TodoopUi
+config :todoop_ui, namespace: TodoopUi
 
 # Configures the endpoint
 config :todoop_ui, TodoopUi.Endpoint,

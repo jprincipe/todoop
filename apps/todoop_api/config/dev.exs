@@ -39,5 +39,3 @@ config :todoop_api, TodoopApi.Endpoint,
       ~r{lib/todoop_api/templates/.*(eex)$}
     ]
   ]
-
-

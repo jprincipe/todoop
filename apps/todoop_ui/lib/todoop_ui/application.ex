@@ -7,7 +7,7 @@ defmodule TodoopUi.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts
-      supervisor(TodoopUi.Endpoint, []),
+      supervisor(TodoopUi.Endpoint, [])
       # Start your own worker by calling: TodoopUi.Worker.start_link(arg1, arg2, arg3)
       # worker(TodoopUi.Worker, [arg1, arg2, arg3]),
     ]

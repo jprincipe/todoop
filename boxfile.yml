@@ -1,0 +1,46 @@
+run.config:
+  engine: elixir
+  engine.config:
+    runtime: elixir-1.6
+    erlang_runtime: erlang-21
+
+  dev_packages:
+    - nodejs-9.8.0
+    - inotify-tools
+    - postgresql96-client
+
+  cache_dirs:
+    - apps/todoop_ui/assets/node_modules
+    - apps/todoop_ui/assets/elm/elm-stuff
+
+  extra_path_dirs:
+    - apps/todoop_ui/assets/node_modules/.bin
+
+  fs_watch: true
+
+deploy.config:
+  # extra_steps:
+  #   - mix cmd --app formulax_ui_web "(cd assets && npm install && npm run deploy) || true"
+  #   - mix phx.digest
+
+  before_live:
+    web.api:
+      - mix cmd --app todoop_data mix ecto.create
+      - mix cmd --app todoop_data mix ecto.migrate
+
+data.db:
+  image: nanobox/postgresql:9.6
+
+web.api:
+  cwd: apps/todoop_api
+  start: node-start mix phx.server
+  routes:
+    - 'api:/'
+    - 'api-staging:/'
+web.ui:
+  cwd: apps/todoop_ui
+  start: node-start mix phx.server
+  routes:
+    - '/'
+    - 'www:/'
+    - 'staging:/'

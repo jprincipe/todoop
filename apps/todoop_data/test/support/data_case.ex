@@ -22,6 +22,7 @@ defmodule TodoopData.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import TodoopData.DataCase
+      import TodoopData.Factory
     end
   end
 

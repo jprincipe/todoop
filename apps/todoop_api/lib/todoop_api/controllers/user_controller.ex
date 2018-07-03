@@ -27,6 +27,6 @@ defmodule TodoopApi.UserController do
   def show(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
 
-    render(conn, "user.json", user: user)
+    render(conn, "show.json", user: user)
   end
 end

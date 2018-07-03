@@ -8,7 +8,7 @@ defmodule TodoopApi.SessionControllerTest do
   end
 
   test "authenticates valid user", %{conn: conn} do
-    user_params = %{email: "foo@bar.com", password: "s3cr3t"}
+    user_params = params_for(:user, email: "foo@bar.com", password: "s3cr3t")
     %User{} |> User.registration_changeset(user_params) |> Repo.insert!()
 
     conn = post(conn, session_path(conn, :create), user_params)

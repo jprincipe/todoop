@@ -3,10 +3,8 @@ defmodule TodoopApi.UserViewTest do
 
   import Phoenix.View
 
-  alias TodoopData.User
-
   test "renders user.json" do
-    user = %User{id: 1, email: "foo@bar.com"}
+    user = insert(:user)
     assert render(TodoopApi.UserView, "user.json", %{user: user}) == %{id: user.id, email: user.email}
   end
 end

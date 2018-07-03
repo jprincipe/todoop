@@ -9,7 +9,7 @@ defmodule TodoopData.List do
 
     timestamps()
 
-    has_many(:tasks, TodoopData.List)
+    has_many(:tasks, TodoopData.Task)
     belongs_to(:user, TodoopData.User)
   end
 

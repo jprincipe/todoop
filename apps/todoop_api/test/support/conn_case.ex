@@ -21,6 +21,7 @@ defmodule TodoopApi.ConnCase do
       use Phoenix.ConnTest
       import TodoopApi.Router.Helpers
       import TodoopData.Factory
+      import Ecto.Query
       alias TodoopData.Repo
 
       # The default endpoint for testing

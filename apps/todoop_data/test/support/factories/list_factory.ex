@@ -9,6 +9,11 @@ defmodule TodoopData.ListFactory do
           user: build(:user)
         }
       end
+
+      def with_tasks(%TodoopData.List{} = list) do
+        insert_pair(:task, list: list)
+        list
+      end
     end
   end
 end

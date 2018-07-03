@@ -6,19 +6,22 @@ defmodule TodoopApi.Router do
   end
 
   pipeline :authenticated do
-    plug TodoopApi.Auth
+    plug(TodoopApi.Plug.Auth)
   end
 
   scope "/v1", TodoopApi do
     pipe_through(:api)
 
-    post "/register", UserController, :create
-    post "/login", SessionController, :create
+    post("/register", UserController, :create)
+    post("/login", SessionController, :create)
   end
 
   scope "/v1", TodoopApi do
     pipe_through([:api, :authenticated])
 
-    get "/me", UserController, :show
+    get("/me", UserController, :show)
+
+    resources "/lists", ListController, except: [:new, :edit]
+    resources("/tasks", TaskController, only: [:create, :update, :delete])
   end
 end

@@ -4,7 +4,7 @@ defmodule TodoopApi.UserController do
   alias TodoopData.User
   alias TodoopApi.Guardian
 
-  plug :scrub_params, "user" when action in [:create]
+  plug(:scrub_params, "user" when action in [:create])
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.registration_changeset(%User{}, user_params)
@@ -16,6 +16,7 @@ defmodule TodoopApi.UserController do
         conn
         |> put_status(:created)
         |> render("token.json", token: token)
+
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -24,8 +25,8 @@ defmodule TodoopApi.UserController do
   end
 
   def show(conn, _params) do
-     user = Guardian.Plug.current_resource(conn)
+    user = Guardian.Plug.current_resource(conn)
 
-     render(conn, "user.json", user: user)
+    render(conn, "user.json", user: user)
   end
 end

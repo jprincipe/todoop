@@ -12,6 +12,7 @@ defmodule TodoopApi.AuthService do
         {:ok, token, _claims} = TodoopApi.Guardian.encode_and_sign(user)
 
         {:ok, token: token}
+
       _ ->
         {:error, :unauthorized}
     end
@@ -24,8 +25,7 @@ defmodule TodoopApi.AuthService do
   end
 
   defp verify_user(email, password) when is_binary(email) and is_binary(password) do
-    with {:ok, user} <- load_user(email),
-    do: verify_password(password, user)
+    with {:ok, user} <- load_user(email), do: verify_password(password, user)
   end
 
   defp load_user(email) when is_binary(email) do
@@ -33,6 +33,7 @@ defmodule TodoopApi.AuthService do
       nil ->
         dummy_checkpw()
         {:error, "Login error."}
+
       user ->
         {:ok, user}
     end

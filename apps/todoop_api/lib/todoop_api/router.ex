@@ -21,7 +21,7 @@ defmodule TodoopApi.Router do
 
     get("/me", UserController, :show)
 
-    resources "/lists", ListController, except: [:new, :edit]
+    resources("/lists", ListController, except: [:new, :edit])
     resources("/tasks", TaskController, only: [:create, :update, :delete])
   end
 end

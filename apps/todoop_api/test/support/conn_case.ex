@@ -24,6 +24,12 @@ defmodule TodoopApi.ConnCase do
       import Ecto.Query
       alias TodoopData.Repo
 
+      def set_auth_header(conn, user) do
+        {:ok, token, _claims} = TodoopApi.Guardian.encode_and_sign(user)
+
+        put_req_header(conn, "authorization", "Bearer #{token}")
+      end
+
       # The default endpoint for testing
       @endpoint TodoopApi.Endpoint
     end

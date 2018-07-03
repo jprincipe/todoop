@@ -10,7 +10,7 @@ defmodule TodoopData.ListService do
       order_by: list.name,
       preload: [tasks: ^task_query()]
     )
-    |> Repo.all
+    |> Repo.all()
   end
 
   def load_list(user, list_id) do
@@ -20,8 +20,8 @@ defmodule TodoopData.ListService do
       where: list.id == ^list_id,
       preload: [tasks: ^task_query()]
     )
-    |> Repo.one
+    |> Repo.one()
   end
 
-  defp task_query(), do: from(t in TodoopData.Task, order_by: t.inserted_at)
+  def task_query(), do: from(t in TodoopData.Task, order_by: t.inserted_at)
 end

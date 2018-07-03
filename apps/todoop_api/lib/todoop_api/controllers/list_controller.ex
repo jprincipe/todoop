@@ -6,6 +6,7 @@ defmodule TodoopApi.ListController do
   alias TodoopData.ListService
 
   plug(:scrub_params, "list" when action in [:create, :update])
+  plug(:load_list when action in [:show, :update, :delete])
 
   def index(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
@@ -14,11 +15,8 @@ defmodule TodoopApi.ListController do
     render(conn, "index.json", lists: lists)
   end
 
-  def show(conn, %{"id" => list_id}) do
-    user = Guardian.Plug.current_resource(conn)
-    list = ListService.load_list(user, list_id)
-
-    render(conn, "show.json", list: list)
+  def show(conn, %{"id" => _list_id}) do
+    render(conn, "show.json", list: conn.assigns.list)
   end
 
   def create(conn, %{"list" => list_params}) do
@@ -43,15 +41,13 @@ defmodule TodoopApi.ListController do
     end
   end
 
-  def update(conn, %{"id" => list_id, "list" => list_params}) do
-    conn
-    |> Guardian.Plug.current_resource()
-    |> ListService.load_list(list_id)
+  def update(conn, %{"id" => _list_id, "list" => list_params}) do
+    conn.assigns.list
     |> List.changeset(list_params)
     |> Repo.update()
     |> case do
       {:ok, list} ->
-        list = Repo.preload(list, [:tasks])
+        list = Repo.preload(list, [tasks: ListService.task_query()])
 
         conn
         |> put_status(:updated)
@@ -61,6 +57,22 @@ defmodule TodoopApi.ListController do
         conn
         |> put_status(:unprocessable_entity)
         |> render(TodoopApi.ErrorView, "422.json", changeset: changeset)
+    end
+  end
+
+  defp load_list(conn, _) do
+    user = Guardian.Plug.current_resource(conn)
+    list_id = conn.params["id"]
+
+    case ListService.load_list(user, list_id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> render(TodoopApi.ErrorView, "404.json")
+        |> halt
+
+      list ->
+        assign(conn, :list, list)
     end
   end
 end

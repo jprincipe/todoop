@@ -5,13 +5,14 @@ defmodule TodoopApi.TaskViewTest do
 
   test "renders show.json" do
     task = insert(:task)
+
     assert render(TodoopApi.TaskView, "show.json", %{task: task}) == %{
-      data: %{
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        status: task.status
-      }
-    }
+             data: %{
+               id: task.id,
+               title: task.title,
+               description: task.description,
+               status: task.status
+             }
+           }
   end
 end

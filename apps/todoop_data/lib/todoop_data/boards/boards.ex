@@ -52,5 +52,5 @@ defmodule TodoopData.Boards do
     Repo.delete(board)
   end
 
-  defp task_query(), do: from(t in TodoopData.Task, order_by: t.inserted_at)
+  defp task_query(), do: from(t in TodoopData.Tasks.Task, order_by: t.inserted_at)
 end

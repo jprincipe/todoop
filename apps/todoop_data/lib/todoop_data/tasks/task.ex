@@ -1,4 +1,4 @@
-defmodule TodoopData.Task do
+defmodule TodoopData.Tasks.Task do
   use TodoopData, :data
   use Ecto.Schema
 

@@ -2,7 +2,7 @@ defmodule TodoopApi.BoardControllerTest do
   use TodoopApi.ConnCase, async: false
 
   alias TodoopData.Boards.Board
-  alias TodoopData.Task
+  alias TodoopData.Tasks.Task
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json"), user: insert(:user)}

@@ -9,7 +9,7 @@ defmodule TodoopData.Boards.Board do
 
     timestamps()
 
-    has_many(:tasks, TodoopData.Task, on_delete: :delete_all)
+    has_many(:tasks, TodoopData.Tasks.Task, on_delete: :delete_all)
     belongs_to(:user, TodoopData.User)
   end
 

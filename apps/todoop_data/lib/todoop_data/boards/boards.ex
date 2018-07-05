@@ -33,7 +33,7 @@ defmodule TodoopData.Boards do
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
     |> case do
-      {:ok, board} -> {:ok, Repo.preload(board, [tasks: task_query()])}
+      {:ok, board} -> {:ok, Repo.preload(board, tasks: task_query())}
       {:error, changeset} -> {:error, changeset}
     end
   end
@@ -43,7 +43,7 @@ defmodule TodoopData.Boards do
     |> Board.changeset(attrs)
     |> Repo.update()
     |> case do
-      {:ok, board} -> {:ok, Repo.preload(board, [tasks: task_query()])}
+      {:ok, board} -> {:ok, Repo.preload(board, tasks: task_query())}
       {:error, changeset} -> {:error, changeset}
     end
   end

@@ -30,18 +30,22 @@ defmodule TodoopApi.BoardControllerTest do
       body = json_response(conn, 200)
       assert body["data"]
 
-      assert body["data"] == [%{
-        "id" => board.id,
-        "name" => board.name,
-        "description" => board.description,
-        "status" => to_string(board.status),
-        "tasks" => [%{
-          "id" => task.id,
-          "title" => task.title,
-          "description" => task.description,
-          "status" => to_string(task.status)
-        }]
-      }]
+      assert body["data"] == [
+               %{
+                 "id" => board.id,
+                 "name" => board.name,
+                 "description" => board.description,
+                 "status" => to_string(board.status),
+                 "tasks" => [
+                   %{
+                     "id" => task.id,
+                     "title" => task.title,
+                     "description" => task.description,
+                     "status" => to_string(task.status)
+                   }
+                 ]
+               }
+             ]
     end
 
     test "doesn't return boards associated with different user", %{conn: conn, user: user} do
@@ -69,18 +73,21 @@ defmodule TodoopApi.BoardControllerTest do
       conn = conn |> set_auth_header(user) |> get(board_path(conn, :show, board.id))
 
       body = json_response(conn, 200)
+
       assert body["data"] == %{
-        "id" => board.id,
-        "name" => board.name,
-        "description" => board.description,
-        "status" => to_string(board.status),
-        "tasks" => [%{
-          "id" => task.id,
-          "title" => task.title,
-          "description" => task.description,
-          "status" => to_string(task.status)
-        }]
-      }
+               "id" => board.id,
+               "name" => board.name,
+               "description" => board.description,
+               "status" => to_string(board.status),
+               "tasks" => [
+                 %{
+                   "id" => task.id,
+                   "title" => task.title,
+                   "description" => task.description,
+                   "status" => to_string(task.status)
+                 }
+               ]
+             }
     end
 
     test "returns 401 when not authenticated", %{conn: conn} do

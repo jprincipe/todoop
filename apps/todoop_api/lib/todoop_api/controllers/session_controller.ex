@@ -1,10 +1,10 @@
 defmodule TodoopApi.SessionController do
   use TodoopApi, :controller
 
-  alias TodoopApi.AuthService
+  alias TodoopData.Accounts
 
   def create(conn, %{"email" => email, "password" => password}) do
-    case AuthService.authenticate(email, password) do
+    case Accounts.authenticate(email, password) do
       {:ok, token: token} ->
         render(conn, TodoopApi.UserView, "token.json", token: token)
 

@@ -4,7 +4,7 @@ defmodule TodoopData.Boards do
   import Ecto.Query, warn: false
 
   alias TodoopData.Repo
-  alias TodoopData.User
+  alias TodoopData.Accounts.User
   alias TodoopData.Boards.Board
 
   def list_boards(%User{} = user) do
@@ -17,11 +17,11 @@ defmodule TodoopData.Boards do
     |> Repo.all()
   end
 
-  def get_board(%User{} = user, board_id) do
+  def get_board(%User{} = user, id) do
     from(
       board in Board,
       where: board.user_id == ^user.id,
-      where: board.id == ^board_id,
+      where: board.id == ^id,
       preload: [tasks: ^task_query()]
     )
     |> Repo.one()

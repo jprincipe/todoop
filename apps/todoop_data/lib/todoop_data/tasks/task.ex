@@ -1,6 +1,5 @@
 defmodule TodoopData.Tasks.Task do
   use TodoopData, :data
-  use Ecto.Schema
 
   schema "tasks" do
     field(:title, :string)
@@ -12,6 +11,7 @@ defmodule TodoopData.Tasks.Task do
     belongs_to(:board, TodoopData.Boards.Board)
   end
 
+  @doc false
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :description, :status])

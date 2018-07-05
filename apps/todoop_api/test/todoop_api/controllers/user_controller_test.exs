@@ -1,7 +1,7 @@
 defmodule TodoopApi.UserControllerTest do
   use TodoopApi.ConnCase, async: false
 
-  alias TodoopData.User
+  alias TodoopData.Accounts.User
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

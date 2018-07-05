@@ -1,15 +1,13 @@
 defmodule TodoopApi.UserController do
   use TodoopApi, :controller
 
-  alias TodoopData.User
+  alias TodoopData.Accounts
   alias TodoopApi.Guardian
 
   plug(:scrub_params, "user" when action in [:create])
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.registration_changeset(%User{}, user_params)
-
-    case Repo.insert(changeset) do
+    case Accounts.create_user(user_params) do
       {:ok, user} ->
         {:ok, token, _claims} = Guardian.encode_and_sign(user)
 

@@ -1,10 +1,19 @@
-defmodule TodoopApi.AuthService do
-  import Plug.Conn
+defmodule TodoopData.Accounts do
+  @moduledoc "The Boards context."
+
+  import Ecto.Query, warn: false
+  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
   alias TodoopData.Repo
-  alias TodoopData.User
+  alias TodoopData.Accounts.User
 
-  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.registration_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_user(id), do: Repo.get(User, id)
 
   def authenticate(email, password) do
     case verify_user(email, password) do
@@ -16,12 +25,6 @@ defmodule TodoopApi.AuthService do
       _ ->
         {:error, :unauthorized}
     end
-  end
-
-  def auth_error(conn, {_type, _reason}, _opts) do
-    conn
-    |> put_status(:unauthorized)
-    |> Phoenix.Controller.render(TodoopApi.ErrorView, "401.json")
   end
 
   defp verify_user(email, password) when is_binary(email) and is_binary(password) do

@@ -3,14 +3,14 @@ defmodule TodoopApi.ErrorViewTest do
 
   import Phoenix.View
 
-  alias TodoopData.User
+  alias TodoopData.Accounts
 
   test "renders 404.json" do
     assert render(TodoopApi.ErrorView, "404.json", []) == %{errors: %{detail: "not found"}}
   end
 
   test "renders 422.json" do
-    changeset = User.registration_changeset(%User{})
+    {:error, changeset} = Accounts.create_user()
 
     assert render(TodoopApi.ErrorView, "422.json", %{changeset: changeset}) == %{errors: %{email: ["can't be blank"]}}
   end

@@ -16,7 +16,7 @@ defmodule TodoopData.Tasks do
     |> Repo.all()
   end
 
-  def get_task(task_id), do: Repo.get(Task, task_id)
+  def get_task(id), do: Repo.get(Task, id)
 
   def create_task(%Board{} = board, attrs \\ %{}) do
     %Task{}

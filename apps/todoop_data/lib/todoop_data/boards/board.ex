@@ -1,6 +1,5 @@
 defmodule TodoopData.Boards.Board do
   use TodoopData, :data
-  use Ecto.Schema
 
   schema "boards" do
     field(:name, :string)
@@ -10,9 +9,10 @@ defmodule TodoopData.Boards.Board do
     timestamps()
 
     has_many(:tasks, TodoopData.Tasks.Task, on_delete: :delete_all)
-    belongs_to(:user, TodoopData.User)
+    belongs_to(:user, TodoopData.Accounts.User)
   end
 
+  @doc false
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :description, :status])

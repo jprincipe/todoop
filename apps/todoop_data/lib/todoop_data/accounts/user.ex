@@ -1,4 +1,4 @@
-defmodule TodoopData.User do
+defmodule TodoopData.Accounts.User do
   use TodoopData, :data
 
   schema "users" do
@@ -12,6 +12,7 @@ defmodule TodoopData.User do
     has_many(:tasks, through: [:boards, :tasks])
   end
 
+  @doc false
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, ~w(email), [])
@@ -21,6 +22,7 @@ defmodule TodoopData.User do
     |> unique_constraint(:email)
   end
 
+  @doc false
   def registration_changeset(struct, params \\ %{}) do
     struct
     |> changeset(params)

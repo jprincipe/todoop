@@ -1,7 +1,7 @@
 defmodule TodoData.UserTest do
   use TodoopData.DataCase
 
-  alias TodoopData.User
+  alias TodoopData.Accounts.User
 
   @valid_attrs %{email: "bar@baz.com", password: "s3cr3t"}
 

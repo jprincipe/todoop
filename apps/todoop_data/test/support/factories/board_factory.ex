@@ -2,7 +2,7 @@ defmodule TodoopData.BoardFactory do
   defmacro __using__(_opts) do
     quote do
       def board_factory do
-        %TodoopData.Board{
+        %TodoopData.Boards.Board{
           name: sequence(:name, &"board #{&1}"),
           description: "board description",
           status: :active,
@@ -10,7 +10,7 @@ defmodule TodoopData.BoardFactory do
         }
       end
 
-      def with_tasks(%TodoopData.Board{} = board) do
+      def with_tasks(%TodoopData.Boards.Board{} = board) do
         insert_pair(:task, board: board)
         board
       end

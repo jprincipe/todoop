@@ -1,4 +1,4 @@
-defmodule TodoopData.Board do
+defmodule TodoopData.Boards.Board do
   use TodoopData, :data
   use Ecto.Schema
 

@@ -2,15 +2,14 @@ defmodule TodoopApi.BoardController do
   use TodoopApi, :controller
 
   alias TodoopApi.Guardian
-  alias TodoopData.Board
-  alias TodoopData.BoardService
+  alias TodoopData.Boards
 
   plug(:scrub_params, "board" when action in [:create, :update])
   plug(:load_board when action in [:show, :update, :delete])
 
   def index(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
-    boards = BoardService.load_boards(user)
+    boards = Boards.list_boards(user)
 
     render(conn, "index.json", boards: boards)
   end
@@ -22,14 +21,8 @@ defmodule TodoopApi.BoardController do
   def create(conn, %{"board" => board_params}) do
     user = Guardian.Plug.current_resource(conn)
 
-    %Board{}
-    |> Board.changeset(board_params)
-    |> Ecto.Changeset.put_assoc(:user, user)
-    |> Repo.insert()
-    |> case do
+    case Boards.create_board(user, board_params) do
       {:ok, board} ->
-        board = Repo.preload(board, [:tasks])
-
         conn
         |> put_status(:created)
         |> render("show.json", board: board)
@@ -42,13 +35,8 @@ defmodule TodoopApi.BoardController do
   end
 
   def update(conn, %{"id" => _board_id, "board" => board_params}) do
-    conn.assigns.board
-    |> Board.changeset(board_params)
-    |> Repo.update()
-    |> case do
+    case Boards.update_board(conn.assigns.board, board_params) do
       {:ok, board} ->
-        board = Repo.preload(board, [tasks: BoardService.task_query()])
-
         conn
         |> put_status(:ok)
         |> render("show.json", board: board)
@@ -61,7 +49,7 @@ defmodule TodoopApi.BoardController do
   end
 
   def delete(conn, %{"id" => _board_id}) do
-    case Repo.delete(conn.assigns.board) do
+    case Boards.delete_board(conn.assigns.board) do
       {:ok, _} ->
         send_resp(conn, :no_content, "")
 
@@ -76,7 +64,7 @@ defmodule TodoopApi.BoardController do
     user = Guardian.Plug.current_resource(conn)
     board_id = conn.params["id"]
 
-    case BoardService.load_board(user, board_id) do
+    case Boards.get_board(user, board_id) do
       nil ->
         conn
         |> put_status(:not_found)

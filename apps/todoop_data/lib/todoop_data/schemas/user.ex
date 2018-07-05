@@ -8,7 +8,7 @@ defmodule TodoopData.User do
 
     timestamps()
 
-    has_many(:boards, TodoopData.Board)
+    has_many(:boards, TodoopData.Boards.Board)
     has_many(:tasks, through: [:boards, :tasks])
   end
 

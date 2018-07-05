@@ -3,7 +3,7 @@ defmodule TodoopApi.BoardViewTest do
 
   import Phoenix.View
 
-  alias TodoopData.BoardService
+  alias TodoopData.Boards
 
   test "renders index.json" do
     user = insert(:user)
@@ -11,7 +11,7 @@ defmodule TodoopApi.BoardViewTest do
     insert(:board, user: user) |> with_tasks()
     insert(:board, user: user) |> with_tasks()
 
-    boards = BoardService.load_boards(user)
+    boards = Boards.list_boards(user)
 
     board1 = Enum.at(boards, 0)
     task1 = Enum.at(board1.tasks, 0)
@@ -70,7 +70,7 @@ defmodule TodoopApi.BoardViewTest do
   test "renders show.json" do
     board = insert(:board) |> with_tasks()
 
-    board = BoardService.load_board(board.user, board.id)
+    board = Boards.get_board(board.user, board.id)
     task1 = Enum.at(board.tasks, 0)
     task2 = Enum.at(board.tasks, 1)
 

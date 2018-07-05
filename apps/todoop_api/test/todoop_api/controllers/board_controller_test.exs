@@ -1,7 +1,7 @@
 defmodule TodoopApi.BoardControllerTest do
   use TodoopApi.ConnCase, async: false
 
-  alias TodoopData.Board
+  alias TodoopData.Boards.Board
   alias TodoopData.Task
 
   setup %{conn: conn} do
@@ -113,7 +113,7 @@ defmodule TodoopApi.BoardControllerTest do
       assert body["data"]["status"] == to_string(board_params[:status])
       assert Enum.empty?(body["data"]["tasks"])
 
-      board = Repo.get_by(TodoopData.Board, name: board_params[:name])
+      board = Repo.get_by(TodoopData.Boards.Board, name: board_params[:name])
       assert board.user_id == user.id
     end
 

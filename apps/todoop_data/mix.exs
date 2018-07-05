@@ -41,6 +41,7 @@ defmodule TodoopData.Mixfile do
       {:ecto, "~> 2.1"},
       {:ecto_enum, "~> 1.0"},
       {:ex_machina, "~> 2.2", only: :test},
+      {:jason, "~> 1.1"},
       {:postgrex, ">= 0.0.0"}
     ]
   end

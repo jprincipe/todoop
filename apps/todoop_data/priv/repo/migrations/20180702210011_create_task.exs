@@ -8,7 +8,7 @@ defmodule TodoopData.Repo.Migrations.CreateTask do
       add :title, :string, null: false
       add :description, :text
       add :status, :task_status, null: false, default: "active"
-      add :list_id, references(:lists), null: false
+      add :list_id, references(:lists, on_delete: :delete_all), null: false
 
       timestamps()
     end

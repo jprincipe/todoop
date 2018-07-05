@@ -50,8 +50,20 @@ defmodule TodoopApi.ListController do
         list = Repo.preload(list, [tasks: ListService.task_query()])
 
         conn
-        |> put_status(:updated)
+        |> put_status(:ok)
         |> render("show.json", list: list)
+
+      {:error, changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(TodoopApi.ErrorView, "422.json", changeset: changeset)
+    end
+  end
+
+  def delete(conn, %{"id" => _list_id}) do
+    case Repo.delete(conn.assigns.list) do
+      {:ok, _} ->
+        send_resp(conn, :no_content, "")
 
       {:error, changeset} ->
         conn

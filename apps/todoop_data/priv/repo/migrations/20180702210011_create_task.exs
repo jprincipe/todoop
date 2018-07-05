@@ -8,12 +8,12 @@ defmodule TodoopData.Repo.Migrations.CreateTask do
       add :title, :string, null: false
       add :description, :text
       add :status, :task_status, null: false, default: "active"
-      add :list_id, references(:lists, on_delete: :delete_all), null: false
+      add :board_id, references(:boards, on_delete: :delete_all), null: false
 
       timestamps()
     end
 
-    create index(:tasks, [:list_id])
+    create index(:tasks, [:board_id])
   end
 
   def down do

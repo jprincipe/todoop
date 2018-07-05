@@ -1,33 +1,33 @@
-defmodule TodoopApi.ListViewTest do
+defmodule TodoopApi.BoardViewTest do
   use TodoopApi.ConnCase, async: true
 
   import Phoenix.View
 
-  alias TodoopData.ListService
+  alias TodoopData.BoardService
 
   test "renders index.json" do
     user = insert(:user)
 
-    insert(:list, user: user) |> with_tasks()
-    insert(:list, user: user) |> with_tasks()
+    insert(:board, user: user) |> with_tasks()
+    insert(:board, user: user) |> with_tasks()
 
-    lists = ListService.load_lists(user)
+    boards = BoardService.load_boards(user)
 
-    list1 = Enum.at(lists, 0)
-    task1 = Enum.at(list1.tasks, 0)
-    task2 = Enum.at(list1.tasks, 1)
+    board1 = Enum.at(boards, 0)
+    task1 = Enum.at(board1.tasks, 0)
+    task2 = Enum.at(board1.tasks, 1)
 
-    list2 = Enum.at(lists, 1)
-    task3 = Enum.at(list2.tasks, 0)
-    task4 = Enum.at(list2.tasks, 1)
+    board2 = Enum.at(boards, 1)
+    task3 = Enum.at(board2.tasks, 0)
+    task4 = Enum.at(board2.tasks, 1)
 
-    assert render(TodoopApi.ListView, "index.json", %{lists: lists}) == %{
+    assert render(TodoopApi.BoardView, "index.json", %{boards: boards}) == %{
              data: [
                %{
-                 id: list1.id,
-                 name: list1.name,
-                 description: list1.description,
-                 status: list1.status,
+                 id: board1.id,
+                 name: board1.name,
+                 description: board1.description,
+                 status: board1.status,
                  tasks: [
                    %{
                      id: task1.id,
@@ -44,10 +44,10 @@ defmodule TodoopApi.ListViewTest do
                  ]
                },
                %{
-                 id: list2.id,
-                 name: list2.name,
-                 description: list2.description,
-                 status: list2.status,
+                 id: board2.id,
+                 name: board2.name,
+                 description: board2.description,
+                 status: board2.status,
                  tasks: [
                    %{
                      id: task3.id,
@@ -68,18 +68,18 @@ defmodule TodoopApi.ListViewTest do
   end
 
   test "renders show.json" do
-    list = insert(:list) |> with_tasks()
+    board = insert(:board) |> with_tasks()
 
-    list = ListService.load_list(list.user, list.id)
-    task1 = Enum.at(list.tasks, 0)
-    task2 = Enum.at(list.tasks, 1)
+    board = BoardService.load_board(board.user, board.id)
+    task1 = Enum.at(board.tasks, 0)
+    task2 = Enum.at(board.tasks, 1)
 
-    assert render(TodoopApi.ListView, "show.json", %{list: list}) == %{
+    assert render(TodoopApi.BoardView, "show.json", %{board: board}) == %{
              data: %{
-               id: list.id,
-               name: list.name,
-               description: list.description,
-               status: list.status,
+               id: board.id,
+               name: board.name,
+               description: board.description,
+               status: board.status,
                tasks: [
                  %{
                    id: task1.id,

@@ -1,38 +1,38 @@
-defmodule TodoopApi.ListController do
+defmodule TodoopApi.BoardController do
   use TodoopApi, :controller
 
   alias TodoopApi.Guardian
-  alias TodoopData.List
-  alias TodoopData.ListService
+  alias TodoopData.Board
+  alias TodoopData.BoardService
 
-  plug(:scrub_params, "list" when action in [:create, :update])
-  plug(:load_list when action in [:show, :update, :delete])
+  plug(:scrub_params, "board" when action in [:create, :update])
+  plug(:load_board when action in [:show, :update, :delete])
 
   def index(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
-    lists = ListService.load_lists(user)
+    boards = BoardService.load_boards(user)
 
-    render(conn, "index.json", lists: lists)
+    render(conn, "index.json", boards: boards)
   end
 
-  def show(conn, %{"id" => _list_id}) do
-    render(conn, "show.json", list: conn.assigns.list)
+  def show(conn, %{"id" => _board_id}) do
+    render(conn, "show.json", board: conn.assigns.board)
   end
 
-  def create(conn, %{"list" => list_params}) do
+  def create(conn, %{"board" => board_params}) do
     user = Guardian.Plug.current_resource(conn)
 
-    %List{}
-    |> List.changeset(list_params)
+    %Board{}
+    |> Board.changeset(board_params)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
     |> case do
-      {:ok, list} ->
-        list = Repo.preload(list, [:tasks])
+      {:ok, board} ->
+        board = Repo.preload(board, [:tasks])
 
         conn
         |> put_status(:created)
-        |> render("show.json", list: list)
+        |> render("show.json", board: board)
 
       {:error, changeset} ->
         conn
@@ -41,17 +41,17 @@ defmodule TodoopApi.ListController do
     end
   end
 
-  def update(conn, %{"id" => _list_id, "list" => list_params}) do
-    conn.assigns.list
-    |> List.changeset(list_params)
+  def update(conn, %{"id" => _board_id, "board" => board_params}) do
+    conn.assigns.board
+    |> Board.changeset(board_params)
     |> Repo.update()
     |> case do
-      {:ok, list} ->
-        list = Repo.preload(list, [tasks: ListService.task_query()])
+      {:ok, board} ->
+        board = Repo.preload(board, [tasks: BoardService.task_query()])
 
         conn
         |> put_status(:ok)
-        |> render("show.json", list: list)
+        |> render("show.json", board: board)
 
       {:error, changeset} ->
         conn
@@ -60,8 +60,8 @@ defmodule TodoopApi.ListController do
     end
   end
 
-  def delete(conn, %{"id" => _list_id}) do
-    case Repo.delete(conn.assigns.list) do
+  def delete(conn, %{"id" => _board_id}) do
+    case Repo.delete(conn.assigns.board) do
       {:ok, _} ->
         send_resp(conn, :no_content, "")
 
@@ -72,19 +72,19 @@ defmodule TodoopApi.ListController do
     end
   end
 
-  defp load_list(conn, _) do
+  defp load_board(conn, _) do
     user = Guardian.Plug.current_resource(conn)
-    list_id = conn.params["id"]
+    board_id = conn.params["id"]
 
-    case ListService.load_list(user, list_id) do
+    case BoardService.load_board(user, board_id) do
       nil ->
         conn
         |> put_status(:not_found)
         |> render(TodoopApi.ErrorView, "404.json")
         |> halt
 
-      list ->
-        assign(conn, :list, list)
+      board ->
+        assign(conn, :board, board)
     end
   end
 end

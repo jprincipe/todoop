@@ -8,8 +8,8 @@ defmodule TodoopData.User do
 
     timestamps()
 
-    has_many(:lists, TodoopData.List)
-    has_many(:tasks, through: [:lists, :tasks])
+    has_many(:boards, TodoopData.Board)
+    has_many(:tasks, through: [:boards, :tasks])
   end
 
   def changeset(struct, params \\ %{}) do

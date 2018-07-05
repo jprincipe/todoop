@@ -9,7 +9,7 @@ defmodule TodoopData.Task do
 
     timestamps()
 
-    belongs_to(:list, TodoopData.List)
+    belongs_to(:board, TodoopData.Board)
   end
 
   def changeset(struct, params \\ %{}) do

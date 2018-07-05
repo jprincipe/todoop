@@ -1,11 +1,11 @@
-defmodule TodoopData.List do
+defmodule TodoopData.Board do
   use TodoopData, :data
   use Ecto.Schema
 
-  schema "lists" do
+  schema "boards" do
     field(:name, :string)
     field(:description, :string)
-    field(:status, ListStatus, default: :active)
+    field(:status, BoardStatus, default: :active)
 
     timestamps()
 

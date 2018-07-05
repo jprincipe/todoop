@@ -6,7 +6,7 @@ defmodule TodoopData.TaskFactory do
           title: sequence(:title, &"task #{&1}"),
           description: "task description",
           status: :active,
-          list: build(:list)
+          board: build(:board)
         }
       end
     end

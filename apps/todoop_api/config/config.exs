@@ -5,6 +5,8 @@
 # is restricted to this project.
 use Mix.Config
 
+config :phoenix, :format_encoders, json: Jason
+
 # General application configuration
 config :todoop_api, namespace: TodoopApi
 

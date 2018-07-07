@@ -1,5 +1,5 @@
 defmodule TodoopApi.AuthServiceTest do
-  use TodoopApi.ConnCase, async: false
+  use TodoopApi.ConnCase
 
   alias TodoopData.Accounts
   alias TodoopData.Accounts.User

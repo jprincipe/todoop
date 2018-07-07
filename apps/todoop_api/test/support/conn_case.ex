@@ -19,9 +19,11 @@ defmodule TodoopApi.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+
       import TodoopApi.Router.Helpers
       import TodoopData.Factory
       import Ecto.Query
+
       alias TodoopData.Repo
 
       def set_auth_header(conn, user) do
@@ -35,8 +37,12 @@ defmodule TodoopApi.ConnCase do
     end
   end
 
-  setup _tags do
+  setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(TodoopData.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(TodoopData.Repo, {:shared, self()})
+    end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

@@ -20,12 +20,30 @@ defmodule TodoopApi.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
+      import Ecto.Query
+      import TodoopData.Factory
+
+      alias TodoopData.Repo
+
+      def authed_socket(socket, user) do
+        {:ok, token, _claims} = TodoopApi.Guardian.encode_and_sign(user)
+        {:ok, authed_socket} = Guardian.Phoenix.Socket.authenticate(socket, TodoopApi.Guardian, token)
+
+        authed_socket
+      end
+
       # The default endpoint for testing
       @endpoint TodoopApi.Endpoint
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(TodoopData.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(TodoopData.Repo, {:shared, self()})
+    end
+
     :ok
   end
 end

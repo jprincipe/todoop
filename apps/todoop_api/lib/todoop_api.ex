@@ -55,6 +55,7 @@ defmodule TodoopApi do
     quote do
       use Phoenix.Channel
       import TodoopApi.Gettext
+      import Guardian.Phoenix.Socket
     end
   end
 

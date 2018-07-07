@@ -27,29 +27,50 @@ defmodule TodoopData.Boards do
     |> Repo.one()
   end
 
-  def create_board(%User{} = user, attrs \\ %{}) do
+  def create_board(%User{} = user, attrs) do
     %Board{}
     |> Board.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
     |> case do
-      {:ok, board} -> {:ok, Repo.preload(board, tasks: task_query())}
-      {:error, changeset} -> {:error, changeset}
+      {:ok, board} ->
+        board = Repo.preload(board, tasks: task_query())
+        payload = TodoopApi.BoardView.render("board.json", %{board: board})
+        TodoopApi.Endpoint.broadcast!("board:list", "board:created", %{board: payload})
+
+        {:ok, board}
+
+      {:error, changeset} ->
+        {:error, changeset}
     end
   end
 
-  def update_board(%Board{} = board, attrs \\ %{}) do
+  def update_board(%Board{} = board, attrs) do
     board
     |> Board.changeset(attrs)
     |> Repo.update()
     |> case do
-      {:ok, board} -> {:ok, Repo.preload(board, tasks: task_query())}
-      {:error, changeset} -> {:error, changeset}
+      {:ok, board} ->
+        board = Repo.preload(board, tasks: task_query())
+        payload = TodoopApi.BoardView.render("board.json", %{board: board})
+        TodoopApi.Endpoint.broadcast!("board:#{board.id}", "board:updated", %{board: payload})
+
+        {:ok, board}
+      {:error, changeset} ->
+        {:error, changeset}
     end
   end
 
   def delete_board(%Board{} = board) do
-    Repo.delete(board)
+    case Repo.delete(board) do
+      {:ok, board} ->
+        TodoopApi.Endpoint.broadcast!("board:#{board.id}", "board:deleted", %{})
+
+        {:ok, board}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   defp task_query(), do: from(t in TodoopData.Tasks.Task, order_by: t.inserted_at)

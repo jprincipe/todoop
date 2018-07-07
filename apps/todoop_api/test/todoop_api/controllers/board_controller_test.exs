@@ -1,5 +1,5 @@
 defmodule TodoopApi.BoardControllerTest do
-  use TodoopApi.ConnCase, async: false
+  use TodoopApi.ConnCase
 
   alias TodoopData.Boards.Board
   alias TodoopData.Tasks.Task

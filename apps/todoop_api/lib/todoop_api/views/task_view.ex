@@ -10,7 +10,8 @@ defmodule TodoopApi.TaskView do
       id: task.id,
       title: task.title,
       description: task.description,
-      status: task.status
+      status: task.status,
+      board_id: task.board_id
     }
   end
 end

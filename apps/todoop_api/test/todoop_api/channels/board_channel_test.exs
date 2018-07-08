@@ -3,6 +3,7 @@ defmodule TodoopApi.BoardChannelTest do
 
   alias TodoopData.Boards
   alias TodoopData.Boards.Board
+  alias TodoopData.Tasks
   alias TodoopData.Tasks.Task
   alias TodoopApi.BoardChannel
 
@@ -37,7 +38,8 @@ defmodule TodoopApi.BoardChannelTest do
                      id: task.id,
                      title: task.title,
                      description: task.description,
-                     status: task.status
+                     status: task.status,
+                     board_id: task.board_id
                    }
                  ]
                }
@@ -62,7 +64,8 @@ defmodule TodoopApi.BoardChannelTest do
                    id: task.id,
                    title: task.title,
                    description: task.description,
-                   status: task.status
+                   status: task.status,
+                   board_id: task.board_id
                  }
                ]
              }
@@ -148,6 +151,80 @@ defmodule TodoopApi.BoardChannelTest do
       assert_broadcast("board:deleted", %{})
 
       refute Repo.get_by(Board, id: board.id)
+      refute Repo.get_by(Task, id: task.id)
+    end
+  end
+
+  describe "task:create" do
+    test "successfully creates task", %{socket: socket, user: user} do
+      board = insert(:board, user: user)
+      task_params = params_for(:task, board: board)
+
+      {:ok, _data, socket} = subscribe_and_join(socket, BoardChannel, "board:#{board.id}")
+      ref = push(socket, "task:create", task_params)
+
+      assert_reply(ref, :ok)
+      assert_broadcast("task:created", %{task: payload})
+
+      assert payload[:id]
+      assert payload[:title] == task_params[:title]
+      assert payload[:description] == task_params[:description]
+      assert payload[:status] == task_params[:status]
+      assert payload[:board_id] == board.id
+
+      assert Repo.get(Task, payload[:id])
+    end
+
+    test "does not create task and renders errors when data is invalid", %{socket: socket, user: user} do
+      board = insert(:board, user: user)
+
+      {:ok, _data, socket} = subscribe_and_join(socket, BoardChannel, "board:#{board.id}")
+      ref = push(socket, "task:create", %{})
+
+      assert_reply(ref, :error, %{errors: %{title: ["can't be blank"]}})
+    end
+  end
+
+  describe "task:update" do
+    test "successfully updates task", %{socket: socket, user: user} do
+      board = insert(:board, user: user)
+      task = insert(:task, board: board)
+      new_task_title = "Updated Task Title"
+
+      {:ok, _data, socket} = subscribe_and_join(socket, BoardChannel, "board:#{board.id}")
+      ref = push(socket, "task:update", %{id: task.id, title: new_task_title})
+
+      assert_reply(ref, :ok)
+      assert_broadcast("task:updated", %{task: payload})
+
+      task = Tasks.get_task(board, task.id)
+      assert task.title == new_task_title
+      assert payload[:title] == new_task_title
+    end
+
+    test "does not update task and renders errors when data is invalid", %{socket: socket, user: user} do
+      board = insert(:board, user: user)
+      task = insert(:task, board: board)
+
+      {:ok, _data, socket} = subscribe_and_join(socket, BoardChannel, "board:#{board.id}")
+      ref = push(socket, "board:update", %{id: task.id, name: nil})
+
+      assert_reply(ref, :error, %{errors: %{name: ["can't be blank"]}})
+    end
+  end
+
+  describe "task:delete" do
+    test "deletes task", %{socket: socket, user: user} do
+      board = insert(:board, user: user)
+      task = insert(:task, board: board)
+
+      {:ok, _data, socket} = subscribe_and_join(socket, BoardChannel, "board:#{board.id}")
+      ref = push(socket, "task:delete", %{id: task.id})
+
+      assert_reply(ref, :ok)
+      assert_broadcast("task:deleted", %{})
+
+      assert Repo.get_by(Board, id: board.id)
       refute Repo.get_by(Task, id: task.id)
     end
   end

@@ -56,6 +56,7 @@ defmodule TodoopData.Boards do
         TodoopApi.Endpoint.broadcast!("board:#{board.id}", "board:updated", %{board: payload})
 
         {:ok, board}
+
       {:error, changeset} ->
         {:error, changeset}
     end

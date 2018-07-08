@@ -16,7 +16,14 @@ defmodule TodoopData.Tasks do
     |> Repo.all()
   end
 
-  def get_task(id), do: Repo.get(Task, id)
+  def get_task(%Board{} = board, id) do
+    from(
+      task in Task,
+      where: task.board_id == ^board.id,
+      where: task.id == ^id
+    )
+    |> Repo.one()
+  end
 
   def create_task(%Board{} = board, attrs) do
     %Task{}
@@ -25,7 +32,8 @@ defmodule TodoopData.Tasks do
     |> Repo.insert()
     |> case do
       {:ok, task} ->
-        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:created", %{task_id: task.id, task: task})
+        payload = TodoopApi.TaskView.render("task.json", %{task: task})
+        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:created", %{task: payload})
 
         {:ok, task}
 
@@ -40,9 +48,11 @@ defmodule TodoopData.Tasks do
     |> Repo.update()
     |> case do
       {:ok, task} ->
-        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:updated", %{task_id: task.id, task: task})
+        payload = TodoopApi.TaskView.render("task.json", %{task: task})
+        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:updated", %{task: payload})
 
         {:ok, task}
+
       {:error, changeset} ->
         {:error, changeset}
     end
@@ -51,9 +61,11 @@ defmodule TodoopData.Tasks do
   def delete_task(%Task{} = task) do
     case Repo.delete(task) do
       {:ok, task} ->
-        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:deleted", %{task_id: task.id, task: task})
+        payload = TodoopApi.TaskView.render("task.json", %{task: task})
+        TodoopApi.Endpoint.broadcast!("board:#{task.board_id}", "task:deleted", %{task: payload})
 
         {:ok, task}
+
       {:error, changeset} ->
         {:error, changeset}
     end

@@ -11,7 +11,8 @@ defmodule TodoopApi.TaskViewTest do
                id: task.id,
                title: task.title,
                description: task.description,
-               status: task.status
+               status: task.status,
+               board_id: task.board.id
              }
            }
   end

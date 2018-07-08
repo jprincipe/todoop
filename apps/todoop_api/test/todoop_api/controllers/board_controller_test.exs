@@ -41,7 +41,8 @@ defmodule TodoopApi.BoardControllerTest do
                      "id" => task.id,
                      "title" => task.title,
                      "description" => task.description,
-                     "status" => to_string(task.status)
+                     "status" => to_string(task.status),
+                     "board_id" => task.board_id
                    }
                  ]
                }
@@ -84,7 +85,8 @@ defmodule TodoopApi.BoardControllerTest do
                    "id" => task.id,
                    "title" => task.title,
                    "description" => task.description,
-                   "status" => to_string(task.status)
+                   "status" => to_string(task.status),
+                   "board_id" => task.board_id
                  }
                ]
              }

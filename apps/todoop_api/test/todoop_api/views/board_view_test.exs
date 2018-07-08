@@ -33,13 +33,15 @@ defmodule TodoopApi.BoardViewTest do
                      id: task1.id,
                      title: task1.title,
                      description: task1.description,
-                     status: task1.status
+                     status: task1.status,
+                     board_id: task1.board_id
                    },
                    %{
                      id: task2.id,
                      title: task2.title,
                      description: task2.description,
-                     status: task2.status
+                     status: task2.status,
+                     board_id: task2.board_id
                    }
                  ]
                },
@@ -53,13 +55,15 @@ defmodule TodoopApi.BoardViewTest do
                      id: task3.id,
                      title: task3.title,
                      description: task3.description,
-                     status: task3.status
+                     status: task3.status,
+                     board_id: task3.board_id
                    },
                    %{
                      id: task4.id,
                      title: task4.title,
                      description: task4.description,
-                     status: task4.status
+                     status: task4.status,
+                     board_id: task4.board_id
                    }
                  ]
                }
@@ -85,13 +89,15 @@ defmodule TodoopApi.BoardViewTest do
                    id: task1.id,
                    title: task1.title,
                    description: task1.description,
-                   status: task1.status
+                   status: task1.status,
+                   board_id: task1.board_id
                  },
                  %{
                    id: task2.id,
                    title: task2.title,
                    description: task2.description,
-                   status: task2.status
+                   status: task2.status,
+                   board_id: task2.board_id
                  }
                ]
              }

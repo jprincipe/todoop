@@ -1,17 +1,19 @@
-module Todo.Model exposing (..)
+module Task.Model exposing (..)
 
 
 type alias Model =
     { title : String
+    , description : String
     , completed : Bool
     , editing : Bool
     , id : Int
     }
 
 
-newTodo : Int -> String -> Model
-newTodo id title =
+newTask : Int -> String -> Model
+newTask id title =
     { title = title
+    , description = ""
     , completed = False
     , editing = False
     , id = id
@@ -20,4 +22,4 @@ newTodo id title =
 
 model : Model
 model =
-    newTodo 1 ""
+    newTask 1 ""

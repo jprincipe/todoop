@@ -12429,28 +12429,28 @@ var _user$project$Control_Msg$ChangeVisibility = function (a) {
 	return {ctor: 'ChangeVisibility', _0: a};
 };
 
-var _user$project$Todo_Msg$Update = function (a) {
+var _user$project$Task_Msg$Update = function (a) {
 	return {ctor: 'Update', _0: a};
 };
-var _user$project$Todo_Msg$Editing = function (a) {
+var _user$project$Task_Msg$Editing = function (a) {
 	return {ctor: 'Editing', _0: a};
 };
-var _user$project$Todo_Msg$Check = function (a) {
+var _user$project$Task_Msg$Check = function (a) {
 	return {ctor: 'Check', _0: a};
 };
 
-var _user$project$TodoList_Msg$MsgForTodo = F2(
+var _user$project$TaskList_Msg$MsgForTask = F2(
 	function (a, b) {
-		return {ctor: 'MsgForTodo', _0: a, _1: b};
+		return {ctor: 'MsgForTask', _0: a, _1: b};
 	});
-var _user$project$TodoList_Msg$CheckAll = function (a) {
+var _user$project$TaskList_Msg$CheckAll = function (a) {
 	return {ctor: 'CheckAll', _0: a};
 };
-var _user$project$TodoList_Msg$DeleteCompleted = {ctor: 'DeleteCompleted'};
-var _user$project$TodoList_Msg$Delete = function (a) {
+var _user$project$TaskList_Msg$DeleteCompleted = {ctor: 'DeleteCompleted'};
+var _user$project$TaskList_Msg$Delete = function (a) {
 	return {ctor: 'Delete', _0: a};
 };
-var _user$project$TodoList_Msg$Add = F2(
+var _user$project$TaskList_Msg$Add = F2(
 	function (a, b) {
 		return {ctor: 'Add', _0: a, _1: b};
 	});
@@ -12458,11 +12458,11 @@ var _user$project$TodoList_Msg$Add = F2(
 var _user$project$Msg$MsgForControl = function (a) {
 	return {ctor: 'MsgForControl', _0: a};
 };
-var _user$project$Msg$MsgForTodoList = function (a) {
-	return {ctor: 'MsgForTodoList', _0: a};
+var _user$project$Msg$MsgForTaskList = function (a) {
+	return {ctor: 'MsgForTaskList', _0: a};
 };
-var _user$project$Msg$MsgForTodoEntry = function (a) {
-	return {ctor: 'MsgForTodoEntry', _0: a};
+var _user$project$Msg$MsgForTaskEntry = function (a) {
+	return {ctor: 'MsgForTaskEntry', _0: a};
 };
 var _user$project$Msg$NoOp = {ctor: 'NoOp'};
 
@@ -12483,14 +12483,14 @@ var _user$project$Control_Update$update = F2(
 		}
 	});
 
-var _user$project$Todo_Model$newTodo = F2(
+var _user$project$Task_Model$newTask = F2(
 	function (id, title) {
-		return {title: title, completed: false, editing: false, id: id};
+		return {title: title, description: '', completed: false, editing: false, id: id};
 	});
-var _user$project$Todo_Model$model = A2(_user$project$Todo_Model$newTodo, 1, '');
-var _user$project$Todo_Model$Model = F4(
-	function (a, b, c, d) {
-		return {title: a, completed: b, editing: c, id: d};
+var _user$project$Task_Model$model = A2(_user$project$Task_Model$newTask, 1, '');
+var _user$project$Task_Model$Model = F5(
+	function (a, b, c, d, e) {
+		return {title: a, description: b, completed: c, editing: d, id: e};
 	});
 
 var _user$project$Control_View_Controls$visibilitySwap = F3(
@@ -12535,16 +12535,16 @@ var _user$project$Control_View_Controls$visibilitySwap = F3(
 			});
 	});
 var _user$project$Control_View_Controls$controls = F2(
-	function (visibility, todos) {
-		var todosCompleted = _elm_lang$core$List$length(
+	function (visibility, tasks) {
+		var tasksCompleted = _elm_lang$core$List$length(
 			A2(
 				_elm_lang$core$List$filter,
 				function (_) {
 					return _.completed;
 				},
-				todos));
-		var todosLeft = _elm_lang$core$List$length(todos) - todosCompleted;
-		var item_ = _elm_lang$core$Native_Utils.eq(todosLeft, 1) ? ' item' : ' items';
+				tasks));
+		var tasksLeft = _elm_lang$core$List$length(tasks) - tasksCompleted;
+		var item_ = _elm_lang$core$Native_Utils.eq(tasksLeft, 1) ? ' item' : ' items';
 		return A2(
 			_elm_lang$html$Html$footer,
 			{
@@ -12553,7 +12553,7 @@ var _user$project$Control_View_Controls$controls = F2(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$hidden(
-						_elm_lang$core$List$isEmpty(todos)),
+						_elm_lang$core$List$isEmpty(tasks)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -12563,7 +12563,7 @@ var _user$project$Control_View_Controls$controls = F2(
 					_elm_lang$html$Html$span,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$id('todo-count'),
+						_0: _elm_lang$html$Html_Attributes$id('task-count'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -12574,7 +12574,7 @@ var _user$project$Control_View_Controls$controls = F2(
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									_elm_lang$core$Basics$toString(todosLeft)),
+									_elm_lang$core$Basics$toString(tasksLeft)),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -12627,11 +12627,11 @@ var _user$project$Control_View_Controls$controls = F2(
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$hidden(
-											_elm_lang$core$Native_Utils.eq(todosCompleted, 0)),
+											_elm_lang$core$Native_Utils.eq(tasksCompleted, 0)),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Msg$MsgForTodoList(_user$project$TodoList_Msg$DeleteCompleted)),
+												_user$project$Msg$MsgForTaskList(_user$project$TaskList_Msg$DeleteCompleted)),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -12645,7 +12645,7 @@ var _user$project$Control_View_Controls$controls = F2(
 										'Clear completed (',
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(todosCompleted),
+											_elm_lang$core$Basics$toString(tasksCompleted),
 											')'))),
 								_1: {ctor: '[]'}
 							}),
@@ -12655,7 +12655,7 @@ var _user$project$Control_View_Controls$controls = F2(
 			});
 	});
 
-var _user$project$TodoList_Model$model = {ctor: '[]'};
+var _user$project$TaskList_Model$model = {ctor: '[]'};
 
 var _user$project$Model$withSetStorage = F2(
 	function (setStorage, _p0) {
@@ -12676,7 +12676,7 @@ var _user$project$Model$withSetStorage = F2(
 				})
 		};
 	});
-var _user$project$Model$initialModel = {todoEntry: _user$project$Todo_Model$model, todoList: _user$project$TodoList_Model$model, control: _user$project$Control_Model$model};
+var _user$project$Model$initialModel = {taskEntry: _user$project$Task_Model$model, taskList: _user$project$TaskList_Model$model, control: _user$project$Control_Model$model};
 var _user$project$Model$init = function (savedModel) {
 	return A2(
 		_elm_lang$core$Platform_Cmd_ops['!'],
@@ -12685,10 +12685,10 @@ var _user$project$Model$init = function (savedModel) {
 };
 var _user$project$Model$Model = F3(
 	function (a, b, c) {
-		return {todoEntry: a, todoList: b, control: c};
+		return {taskEntry: a, taskList: b, control: c};
 	});
 
-var _user$project$Todo_Update$updateTodo = F2(
+var _user$project$Task_Update$updateTask = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -12706,17 +12706,17 @@ var _user$project$Todo_Update$updateTodo = F2(
 					{title: _p0._0});
 		}
 	});
-var _user$project$Todo_Update$update = F2(
-	function (msgFor, todo) {
+var _user$project$Task_Update$update = F2(
+	function (msgFor, task) {
 		var _p1 = msgFor;
 		_v1_2:
 		do {
 			switch (_p1.ctor) {
-				case 'MsgForTodoEntry':
-					return A2(_user$project$Todo_Update$updateTodo, _p1._0, todo);
-				case 'MsgForTodoList':
+				case 'MsgForTaskEntry':
+					return A2(_user$project$Task_Update$updateTask, _p1._0, task);
+				case 'MsgForTaskList':
 					if (_p1._0.ctor === 'Add') {
-						return A2(_user$project$Todo_Model$newTodo, _p1._0._0 + 1, '');
+						return A2(_user$project$Task_Model$newTask, _p1._0._0 + 1, '');
 					} else {
 						break _v1_2;
 					}
@@ -12724,41 +12724,41 @@ var _user$project$Todo_Update$update = F2(
 					break _v1_2;
 			}
 		} while(false);
-		return todo;
+		return task;
 	});
 
-var _user$project$TodoList_Update$updateCmd = F2(
+var _user$project$TaskList_Update$updateCmd = F2(
 	function (focus, msg) {
 		var _p0 = msg;
-		if (((_p0.ctor === 'MsgForTodoList') && (_p0._0.ctor === 'MsgForTodo')) && (_p0._0._1.ctor === 'Editing')) {
+		if (((_p0.ctor === 'MsgForTaskList') && (_p0._0.ctor === 'MsgForTask')) && (_p0._0._1.ctor === 'Editing')) {
 			return focus(
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					'#todo-',
+					'#task-',
 					_elm_lang$core$Basics$toString(_p0._0._0)));
 		} else {
 			return _elm_lang$core$Platform_Cmd$none;
 		}
 	});
-var _user$project$TodoList_Update$updateTodo = F3(
-	function (id, msg, todoList) {
-		var updateTodo = function (todo) {
-			return _elm_lang$core$Native_Utils.eq(todo.id, id) ? A2(_user$project$Todo_Update$updateTodo, msg, todo) : todo;
+var _user$project$TaskList_Update$updateTask = F3(
+	function (id, msg, taskList) {
+		var updateTask = function (task) {
+			return _elm_lang$core$Native_Utils.eq(task.id, id) ? A2(_user$project$Task_Update$updateTask, msg, task) : task;
 		};
-		return A2(_elm_lang$core$List$map, updateTodo, todoList);
+		return A2(_elm_lang$core$List$map, updateTask, taskList);
 	});
-var _user$project$TodoList_Update$updateTodoList = F2(
-	function (msg, todoList) {
+var _user$project$TaskList_Update$updateTaskList = F2(
+	function (msg, taskList) {
 		var _p1 = msg;
 		switch (_p1.ctor) {
 			case 'Add':
 				var _p2 = _p1._1;
-				return _elm_lang$core$String$isEmpty(_p2) ? todoList : A2(
+				return _elm_lang$core$String$isEmpty(_p2) ? taskList : A2(
 					_elm_lang$core$Basics_ops['++'],
-					todoList,
+					taskList,
 					{
 						ctor: '::',
-						_0: A2(_user$project$Todo_Model$newTodo, _p1._0, _p2),
+						_0: A2(_user$project$Task_Model$newTask, _p1._0, _p2),
 						_1: {ctor: '[]'}
 					});
 			case 'Delete':
@@ -12767,7 +12767,7 @@ var _user$project$TodoList_Update$updateTodoList = F2(
 					function (t) {
 						return !_elm_lang$core$Native_Utils.eq(t.id, _p1._0);
 					},
-					todoList);
+					taskList);
 			case 'DeleteCompleted':
 				return A2(
 					_elm_lang$core$List$filter,
@@ -12776,26 +12776,26 @@ var _user$project$TodoList_Update$updateTodoList = F2(
 							return _.completed;
 						}(_p3);
 					},
-					todoList);
+					taskList);
 			case 'CheckAll':
-				var updateTodo = function (t) {
+				var updateTask = function (t) {
 					return A2(
-						_user$project$Todo_Update$updateTodo,
-						_user$project$Todo_Msg$Check(_p1._0),
+						_user$project$Task_Update$updateTask,
+						_user$project$Task_Msg$Check(_p1._0),
 						t);
 				};
-				return A2(_elm_lang$core$List$map, updateTodo, todoList);
+				return A2(_elm_lang$core$List$map, updateTask, taskList);
 			default:
-				return A3(_user$project$TodoList_Update$updateTodo, _p1._0, _p1._1, todoList);
+				return A3(_user$project$TaskList_Update$updateTask, _p1._0, _p1._1, taskList);
 		}
 	});
-var _user$project$TodoList_Update$update = F2(
-	function (msgFor, todoList) {
+var _user$project$TaskList_Update$update = F2(
+	function (msgFor, taskList) {
 		var _p4 = msgFor;
-		if (_p4.ctor === 'MsgForTodoList') {
-			return A2(_user$project$TodoList_Update$updateTodoList, _p4._0, todoList);
+		if (_p4.ctor === 'MsgForTaskList') {
+			return A2(_user$project$TaskList_Update$updateTaskList, _p4._0, taskList);
 		} else {
-			return todoList;
+			return taskList;
 		}
 	});
 
@@ -12804,7 +12804,7 @@ var _user$project$Update$updateCmd = F2(
 		return _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
-				_0: A2(_user$project$TodoList_Update$updateCmd, focus, msg),
+				_0: A2(_user$project$TaskList_Update$updateCmd, focus, msg),
 				_1: {ctor: '[]'}
 			});
 	});
@@ -12813,8 +12813,8 @@ var _user$project$Update$update = F2(
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				todoEntry: A2(_user$project$Todo_Update$update, msg, model.todoEntry),
-				todoList: A2(_user$project$TodoList_Update$update, msg, model.todoList),
+				taskEntry: A2(_user$project$Task_Update$update, msg, model.taskEntry),
+				taskList: A2(_user$project$TaskList_Update$update, msg, model.taskList),
 				control: A2(_user$project$Control_Update$update, msg, model.control)
 			});
 	});
@@ -12827,7 +12827,7 @@ var _user$project$Update$updateWithCmd = F3(
 		};
 	});
 
-var _user$project$Todo_View_Events$onEnter = F2(
+var _user$project$Task_View_Events$onEnter = F2(
 	function (fail, success) {
 		var tagger = function (code) {
 			return _elm_lang$core$Native_Utils.eq(code, 13) ? success : fail;
@@ -12838,7 +12838,7 @@ var _user$project$Todo_View_Events$onEnter = F2(
 			A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$keyCode));
 	});
 
-var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
+var _user$project$Task_View_TaskEntry$taskEntry = function (taskEntry) {
 	return A2(
 		_elm_lang$html$Html$header,
 		{
@@ -12853,7 +12853,7 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('todos'),
+					_0: _elm_lang$html$Html$text('Todoop'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -12862,7 +12862,7 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 					_elm_lang$html$Html$input,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$id('new-todo'),
+						_0: _elm_lang$html$Html_Attributes$id('new-task'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$placeholder('What needs to be done ?'),
@@ -12871,10 +12871,10 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 								_0: _elm_lang$html$Html_Attributes$autofocus(true),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(todoEntry.title),
+									_0: _elm_lang$html$Html_Attributes$value(taskEntry.title),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$name('newTodo'),
+										_0: _elm_lang$html$Html_Attributes$name('newTask'),
 										_1: {
 											ctor: '::',
 											_0: A2(
@@ -12883,17 +12883,17 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 												A2(
 													_elm_lang$core$Json_Decode$map,
 													function (_p0) {
-														return _user$project$Msg$MsgForTodoEntry(
-															_user$project$Todo_Msg$Update(_p0));
+														return _user$project$Msg$MsgForTaskEntry(
+															_user$project$Task_Msg$Update(_p0));
 													},
 													_elm_lang$html$Html_Events$targetValue)),
 											_1: {
 												ctor: '::',
 												_0: A2(
-													_user$project$Todo_View_Events$onEnter,
+													_user$project$Task_View_Events$onEnter,
 													_user$project$Msg$NoOp,
-													_user$project$Msg$MsgForTodoList(
-														A2(_user$project$TodoList_Msg$Add, todoEntry.id, todoEntry.title))),
+													_user$project$Msg$MsgForTaskList(
+														A2(_user$project$TaskList_Msg$Add, taskEntry.id, taskEntry.title))),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -12908,7 +12908,7 @@ var _user$project$Todo_View_TodoEntry$todoEntry = function (todoEntry) {
 		});
 };
 
-var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
+var _user$project$TaskList_View_TaskItem$taskItem = function (task) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{
@@ -12916,10 +12916,10 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 			_0: _elm_lang$html$Html_Attributes$classList(
 				{
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'completed', _1: todo.completed},
+					_0: {ctor: '_Tuple2', _0: 'completed', _1: task.completed},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'editing', _1: todo.editing},
+						_0: {ctor: '_Tuple2', _0: 'editing', _1: task.editing},
 						_1: {ctor: '[]'}
 					}
 				}),
@@ -12946,15 +12946,15 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$checked(todo.completed),
+									_0: _elm_lang$html$Html_Attributes$checked(task.completed),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTodoList(
+											_user$project$Msg$MsgForTaskList(
 												A2(
-													_user$project$TodoList_Msg$MsgForTodo,
-													todo.id,
-													_user$project$Todo_Msg$Check(!todo.completed)))),
+													_user$project$TaskList_Msg$MsgForTask,
+													task.id,
+													_user$project$Task_Msg$Check(!task.completed)))),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -12968,16 +12968,16 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onDoubleClick(
-									_user$project$Msg$MsgForTodoList(
+									_user$project$Msg$MsgForTaskList(
 										A2(
-											_user$project$TodoList_Msg$MsgForTodo,
-											todo.id,
-											_user$project$Todo_Msg$Editing(true)))),
+											_user$project$TaskList_Msg$MsgForTask,
+											task.id,
+											_user$project$Task_Msg$Editing(true)))),
 								_1: {ctor: '[]'}
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(todo.title),
+								_0: _elm_lang$html$Html$text(task.title),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -12990,8 +12990,8 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTodoList(
-												_user$project$TodoList_Msg$Delete(todo.id))),
+											_user$project$Msg$MsgForTaskList(
+												_user$project$TaskList_Msg$Delete(task.id))),
 										_1: {ctor: '[]'}
 									}
 								},
@@ -13009,7 +13009,7 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 						_0: _elm_lang$html$Html_Attributes$class('edit'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value(todo.title),
+							_0: _elm_lang$html$Html_Attributes$value(task.title),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Attributes$name('title'),
@@ -13018,8 +13018,8 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 									_0: _elm_lang$html$Html_Attributes$id(
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											'todo-',
-											_elm_lang$core$Basics$toString(todo.id))),
+											'task-',
+											_elm_lang$core$Basics$toString(task.id))),
 									_1: {
 										ctor: '::',
 										_0: A2(
@@ -13028,31 +13028,31 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 											A2(
 												_elm_lang$core$Json_Decode$map,
 												function (_p0) {
-													return _user$project$Msg$MsgForTodoList(
+													return _user$project$Msg$MsgForTaskList(
 														A2(
-															_user$project$TodoList_Msg$MsgForTodo,
-															todo.id,
-															_user$project$Todo_Msg$Update(_p0)));
+															_user$project$TaskList_Msg$MsgForTask,
+															task.id,
+															_user$project$Task_Msg$Update(_p0)));
 												},
 												_elm_lang$html$Html_Events$targetValue)),
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onBlur(
-												_user$project$Msg$MsgForTodoList(
+												_user$project$Msg$MsgForTaskList(
 													A2(
-														_user$project$TodoList_Msg$MsgForTodo,
-														todo.id,
-														_user$project$Todo_Msg$Editing(false)))),
+														_user$project$TaskList_Msg$MsgForTask,
+														task.id,
+														_user$project$Task_Msg$Editing(false)))),
 											_1: {
 												ctor: '::',
 												_0: A2(
-													_user$project$Todo_View_Events$onEnter,
+													_user$project$Task_View_Events$onEnter,
 													_user$project$Msg$NoOp,
-													_user$project$Msg$MsgForTodoList(
+													_user$project$Msg$MsgForTaskList(
 														A2(
-															_user$project$TodoList_Msg$MsgForTodo,
-															todo.id,
-															_user$project$Todo_Msg$Editing(false)))),
+															_user$project$TaskList_Msg$MsgForTask,
+															task.id,
+															_user$project$Task_Msg$Editing(false)))),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -13067,22 +13067,22 @@ var _user$project$TodoList_View_TodoItem$todoItem = function (todo) {
 		});
 };
 
-var _user$project$TodoList_View_TodoList$todoList = F2(
-	function (visibility, todos) {
-		var cssVisibility = _elm_lang$core$List$isEmpty(todos) ? 'hidden' : 'visible';
+var _user$project$TaskList_View_TaskList$taskList = F2(
+	function (visibility, tasks) {
+		var cssVisibility = _elm_lang$core$List$isEmpty(tasks) ? 'hidden' : 'visible';
 		var allCompleted = A2(
 			_elm_lang$core$List$all,
 			function (_) {
 				return _.completed;
 			},
-			todos);
-		var isVisible = function (todo) {
+			tasks);
+		var isVisible = function (task) {
 			var _p0 = visibility;
 			switch (_p0) {
 				case 'Completed':
-					return todo.completed;
+					return task.completed;
 				case 'Active':
-					return !todo.completed;
+					return !task.completed;
 				default:
 					return true;
 			}
@@ -13122,8 +13122,8 @@ var _user$project$TodoList_View_TodoList$todoList = F2(
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTodoList(
-												_user$project$TodoList_Msg$CheckAll(!allCompleted))),
+											_user$project$Msg$MsgForTaskList(
+												_user$project$TaskList_Msg$CheckAll(!allCompleted))),
 										_1: {ctor: '[]'}
 									}
 								}
@@ -13151,13 +13151,13 @@ var _user$project$TodoList_View_TodoList$todoList = F2(
 							_elm_lang$html$Html$ul,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$id('todo-list'),
+								_0: _elm_lang$html$Html_Attributes$id('task-list'),
 								_1: {ctor: '[]'}
 							},
 							A2(
 								_elm_lang$core$List$map,
-								_user$project$TodoList_View_TodoItem$todoItem,
-								A2(_elm_lang$core$List$filter, isVisible, todos))),
+								_user$project$TaskList_View_TaskItem$taskItem,
+								A2(_elm_lang$core$List$filter, isVisible, tasks))),
 						_1: {ctor: '[]'}
 					}
 				}
@@ -13178,73 +13178,21 @@ var _user$project$View_InfoFooter$infoFooter = A2(
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('Double-click to edit a todo'),
+				_0: _elm_lang$html$Html$text('Double-click to edit a task'),
 				_1: {ctor: '[]'}
 			}),
-		_1: {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Written by '),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href('https://github.com/evancz'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Evan Czaplicki'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$p,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Part of '),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$a,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$href('http://todomvc.com'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('TodoMVC'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			}
-		}
+		_1: {ctor: '[]'}
 	});
 
-var _user$project$View_TodoApp$view = function (model) {
+var _user$project$View_TodoopApp$view = function (model) {
 	var control = model.control;
-	var todoEntry = model.todoEntry;
-	var todoList = model.todoList;
+	var taskEntry = model.taskEntry;
+	var taskList = model.taskList;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('todomvc-wrapper'),
+			_0: _elm_lang$html$Html_Attributes$class('todoop-wrapper'),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$style(
@@ -13262,18 +13210,18 @@ var _user$project$View_TodoApp$view = function (model) {
 				_elm_lang$html$Html$section,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$id('todoapp'),
+					_0: _elm_lang$html$Html_Attributes$id('todoop-app'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
-					_0: A2(_elm_lang$html$Html_Lazy$lazy, _user$project$Todo_View_TodoEntry$todoEntry, todoEntry),
+					_0: A2(_elm_lang$html$Html_Lazy$lazy, _user$project$Task_View_TaskEntry$taskEntry, taskEntry),
 					_1: {
 						ctor: '::',
-						_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$TodoList_View_TodoList$todoList, control.visibility, todoList),
+						_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$TaskList_View_TaskList$taskList, control.visibility, taskList),
 						_1: {
 							ctor: '::',
-							_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Control_View_Controls$controls, control.visibility, todoList),
+							_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Control_View_Controls$controls, control.visibility, taskList),
 							_1: {ctor: '[]'}
 						}
 					}
@@ -13290,10 +13238,10 @@ var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
 	'setStorage',
 	function (v) {
 		return {
-			todoEntry: {title: v.todoEntry.title, completed: v.todoEntry.completed, editing: v.todoEntry.editing, id: v.todoEntry.id},
-			todoList: _elm_lang$core$Native_List.toArray(v.todoList).map(
+			taskEntry: {title: v.taskEntry.title, description: v.taskEntry.description, completed: v.taskEntry.completed, editing: v.taskEntry.editing, id: v.taskEntry.id},
+			taskList: _elm_lang$core$Native_List.toArray(v.taskList).map(
 				function (v) {
-					return {title: v.title, completed: v.completed, editing: v.editing, id: v.id};
+					return {title: v.title, description: v.description, completed: v.completed, editing: v.editing, id: v.id};
 				}),
 			control: {visibility: v.control.visibility}
 		};
@@ -13306,7 +13254,7 @@ var _user$project$Main$focus = _elm_lang$core$Native_Platform.outgoingPort(
 var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 	{
 		init: _user$project$Model$init,
-		view: _user$project$View_TodoApp$view,
+		view: _user$project$View_TodoopApp$view,
 		update: F2(
 			function (msg, model) {
 				return A2(
@@ -13332,63 +13280,73 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 						function (control) {
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
-								function (todoEntry) {
+								function (taskEntry) {
 									return A2(
 										_elm_lang$core$Json_Decode$andThen,
-										function (todoList) {
+										function (taskList) {
 											return _elm_lang$core$Json_Decode$succeed(
-												{control: control, todoEntry: todoEntry, todoList: todoList});
+												{control: control, taskEntry: taskEntry, taskList: taskList});
 										},
 										A2(
 											_elm_lang$core$Json_Decode$field,
-											'todoList',
+											'taskList',
 											_elm_lang$core$Json_Decode$list(
 												A2(
 													_elm_lang$core$Json_Decode$andThen,
 													function (completed) {
 														return A2(
 															_elm_lang$core$Json_Decode$andThen,
-															function (editing) {
+															function (description) {
 																return A2(
 																	_elm_lang$core$Json_Decode$andThen,
-																	function (id) {
+																	function (editing) {
 																		return A2(
 																			_elm_lang$core$Json_Decode$andThen,
-																			function (title) {
-																				return _elm_lang$core$Json_Decode$succeed(
-																					{completed: completed, editing: editing, id: id, title: title});
+																			function (id) {
+																				return A2(
+																					_elm_lang$core$Json_Decode$andThen,
+																					function (title) {
+																						return _elm_lang$core$Json_Decode$succeed(
+																							{completed: completed, description: description, editing: editing, id: id, title: title});
+																					},
+																					A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
 																			},
-																			A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
+																			A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 																	},
-																	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																	A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 															},
-															A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+															A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
 													},
 													A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
 								},
 								A2(
 									_elm_lang$core$Json_Decode$field,
-									'todoEntry',
+									'taskEntry',
 									A2(
 										_elm_lang$core$Json_Decode$andThen,
 										function (completed) {
 											return A2(
 												_elm_lang$core$Json_Decode$andThen,
-												function (editing) {
+												function (description) {
 													return A2(
 														_elm_lang$core$Json_Decode$andThen,
-														function (id) {
+														function (editing) {
 															return A2(
 																_elm_lang$core$Json_Decode$andThen,
-																function (title) {
-																	return _elm_lang$core$Json_Decode$succeed(
-																		{completed: completed, editing: editing, id: id, title: title});
+																function (id) {
+																	return A2(
+																		_elm_lang$core$Json_Decode$andThen,
+																		function (title) {
+																			return _elm_lang$core$Json_Decode$succeed(
+																				{completed: completed, description: description, editing: editing, id: id, title: title});
+																		},
+																		A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
 																},
-																A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
+																A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 														},
-														A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+														A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 												},
-												A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+												A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
 										},
 										A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool))));
 						},
@@ -13409,7 +13367,7 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Control.Msg.Msg":{"args":[],"tags":{"ChangeVisibility":["String"]}},"TodoList.Msg.Msg":{"args":[],"tags":{"MsgForTodo":["Int","Todo.Msg.Msg"],"Add":["Int","String"],"DeleteCompleted":[],"CheckAll":["Bool"],"Delete":["Int"]}},"Todo.Msg.Msg":{"args":[],"tags":{"Editing":["Bool"],"Check":["Bool"],"Update":["String"]}},"Msg.Msg":{"args":[],"tags":{"MsgForControl":["Control.Msg.Msg"],"MsgForTodoList":["TodoList.Msg.Msg"],"MsgForTodoEntry":["Todo.Msg.Msg"],"NoOp":[]}}},"aliases":{},"message":"Msg.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Control.Msg.Msg":{"args":[],"tags":{"ChangeVisibility":["String"]}},"Msg.Msg":{"args":[],"tags":{"MsgForControl":["Control.Msg.Msg"],"MsgForTaskList":["TaskList.Msg.Msg"],"MsgForTaskEntry":["Task.Msg.Msg"],"NoOp":[]}},"TaskList.Msg.Msg":{"args":[],"tags":{"Add":["Int","String"],"DeleteCompleted":[],"MsgForTask":["Int","Task.Msg.Msg"],"CheckAll":["Bool"],"Delete":["Int"]}},"Task.Msg.Msg":{"args":[],"tags":{"Editing":["Bool"],"Check":["Bool"],"Update":["String"]}}},"aliases":{},"message":"Msg.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

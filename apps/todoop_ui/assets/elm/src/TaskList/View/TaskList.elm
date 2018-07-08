@@ -1,33 +1,33 @@
-module TodoList.View.TodoList exposing (..)
+module TaskList.View.TaskList exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Msg as Main exposing (..)
-import Todo.Model as Todo
-import TodoList.View.TodoItem exposing (todoItem)
-import TodoList.Msg exposing (..)
+import Task.Model as Task
+import TaskList.View.TaskItem exposing (taskItem)
+import TaskList.Msg exposing (..)
 
 
-todoList : String -> List Todo.Model -> Html Main.Msg
-todoList visibility todos =
+taskList : String -> List Task.Model -> Html Main.Msg
+taskList visibility tasks =
     let
-        isVisible todo =
+        isVisible task =
             case visibility of
                 "Completed" ->
-                    todo.completed
+                    task.completed
 
                 "Active" ->
-                    not todo.completed
+                    not task.completed
 
                 _ ->
                     True
 
         allCompleted =
-            List.all .completed todos
+            List.all .completed tasks
 
         cssVisibility =
-            if List.isEmpty todos then
+            if List.isEmpty tasks then
                 "hidden"
             else
                 "visible"
@@ -41,11 +41,11 @@ todoList visibility todos =
                 , type_ "checkbox"
                 , name "toggle"
                 , checked allCompleted
-                , onClick (MsgForTodoList <| CheckAll (not allCompleted))
+                , onClick (MsgForTaskList <| CheckAll (not allCompleted))
                 ]
                 []
             , label [ for "toggle-all" ]
                 [ text "Mark all as complete" ]
-            , ul [ id "todo-list" ]
-                (List.map todoItem (List.filter isVisible todos))
+            , ul [ id "task-list" ]
+                (List.map taskItem (List.filter isVisible tasks))
             ]

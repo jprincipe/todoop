@@ -20,10 +20,10 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-var storedState = localStorage.getItem('structured-elm-todo-state');
+var storedState = localStorage.getItem('structured-elm-todoop-state');
 var startingState = storedState ? JSON.parse(storedState) : null;
-var todomvc = Elm.Main.fullscreen(startingState);
-todomvc.ports.focus.subscribe(function (selector) {
+var todoop = Elm.Main.fullscreen(startingState);
+todoop.ports.focus.subscribe(function (selector) {
   setTimeout(function () {
     var nodes = document.querySelectorAll(selector);
     if (nodes.length === 1 && document.activeElement !== nodes[0]) {
@@ -31,6 +31,6 @@ todomvc.ports.focus.subscribe(function (selector) {
     }
   }, 50);
 });
-todomvc.ports.setStorage.subscribe(function (state) {
-  localStorage.setItem('structured-elm-todo-state', JSON.stringify(state));
+todoop.ports.setStorage.subscribe(function (state) {
+  localStorage.setItem('structured-elm-todoop-state', JSON.stringify(state));
 });

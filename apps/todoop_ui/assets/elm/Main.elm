@@ -4,7 +4,7 @@ import Html
 import Model exposing (Model, init, withSetStorage)
 import Msg exposing (Msg)
 import Update exposing (updateWithCmd)
-import View.TodoApp exposing (view)
+import View.TodoopApp exposing (view)
 
 
 main : Program (Maybe Model) Model Msg

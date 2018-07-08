@@ -1,6 +1,6 @@
-module TodoList.Msg exposing (..)
+module TaskList.Msg exposing (..)
 
-import Todo.Msg as Todo
+import Task.Msg as Task
 
 
 type Msg
@@ -8,4 +8,4 @@ type Msg
     | Delete Int
     | DeleteCompleted
     | CheckAll Bool
-    | MsgForTodo Int Todo.Msg
+    | MsgForTask Int Task.Msg

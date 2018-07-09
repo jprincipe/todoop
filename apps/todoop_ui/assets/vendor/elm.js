@@ -12436,13 +12436,14 @@ var _user$project$Board_Model$newBoard = F2(
 			name: name,
 			description: '',
 			id: id,
+			editing: false,
 			tasks: {ctor: '[]'}
 		};
 	});
 var _user$project$Board_Model$model = A2(_user$project$Board_Model$newBoard, 1, '');
-var _user$project$Board_Model$Model = F4(
-	function (a, b, c, d) {
-		return {name: a, description: b, id: c, tasks: d};
+var _user$project$Board_Model$Model = F5(
+	function (a, b, c, d, e) {
+		return {name: a, description: b, id: c, tasks: d, editing: e};
 	});
 
 var _user$project$Task_Msg$Update = function (a) {
@@ -13279,7 +13280,8 @@ var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
 				tasks: _elm_lang$core$Native_List.toArray(v.board.tasks).map(
 					function (v) {
 						return {title: v.title, description: v.description, completed: v.completed, editing: v.editing, id: v.id};
-					})
+					}),
+				editing: v.board.editing
 			},
 			control: {visibility: v.control.visibility}
 		};
@@ -13375,51 +13377,56 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 								function (description) {
 									return A2(
 										_elm_lang$core$Json_Decode$andThen,
-										function (id) {
+										function (editing) {
 											return A2(
 												_elm_lang$core$Json_Decode$andThen,
-												function (name) {
+												function (id) {
 													return A2(
 														_elm_lang$core$Json_Decode$andThen,
-														function (tasks) {
-															return _elm_lang$core$Json_Decode$succeed(
-																{description: description, id: id, name: name, tasks: tasks});
-														},
-														A2(
-															_elm_lang$core$Json_Decode$field,
-															'tasks',
-															_elm_lang$core$Json_Decode$list(
+														function (name) {
+															return A2(
+																_elm_lang$core$Json_Decode$andThen,
+																function (tasks) {
+																	return _elm_lang$core$Json_Decode$succeed(
+																		{description: description, editing: editing, id: id, name: name, tasks: tasks});
+																},
 																A2(
-																	_elm_lang$core$Json_Decode$andThen,
-																	function (completed) {
-																		return A2(
+																	_elm_lang$core$Json_Decode$field,
+																	'tasks',
+																	_elm_lang$core$Json_Decode$list(
+																		A2(
 																			_elm_lang$core$Json_Decode$andThen,
-																			function (description) {
+																			function (completed) {
 																				return A2(
 																					_elm_lang$core$Json_Decode$andThen,
-																					function (editing) {
+																					function (description) {
 																						return A2(
 																							_elm_lang$core$Json_Decode$andThen,
-																							function (id) {
+																							function (editing) {
 																								return A2(
 																									_elm_lang$core$Json_Decode$andThen,
-																									function (title) {
-																										return _elm_lang$core$Json_Decode$succeed(
-																											{completed: completed, description: description, editing: editing, id: id, title: title});
+																									function (id) {
+																										return A2(
+																											_elm_lang$core$Json_Decode$andThen,
+																											function (title) {
+																												return _elm_lang$core$Json_Decode$succeed(
+																													{completed: completed, description: description, editing: editing, id: id, title: title});
+																											},
+																											A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
 																									},
-																									A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
+																									A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 																							},
-																							A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																							A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 																					},
-																					A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+																					A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
 																			},
-																			A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
-																	},
-																	A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
+																			A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
+														},
+														A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string));
 												},
-												A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string));
+												A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 										},
-										A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+										A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
 								},
 								A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string))))),
 				_1: {ctor: '[]'}

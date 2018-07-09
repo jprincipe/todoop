@@ -8,6 +8,7 @@ type alias Model =
     , description : String
     , id : Int
     , tasks : List Task.Model
+    , editing : Bool
     }
 
 
@@ -16,6 +17,7 @@ newBoard id name =
     { name = name
     , description = ""
     , id = id
+    , editing = False
     , tasks = []
     }
 

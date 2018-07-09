@@ -1,4 +1,4 @@
-module TaskList.Msg exposing (..)
+module Board.Msg exposing (..)
 
 import Task.Msg as Task
 

@@ -1,52 +1,52 @@
-module TaskList.Update exposing (..)
+module Board.Update exposing (..)
 
 import Msg as Main exposing (..)
 import String
-import Task.Model exposing (newTask)
+import Task.Model as Task exposing (newTask)
 import Task.Msg as Task exposing (..)
 import Task.Update as UpdateTask
-import TaskList.Model exposing (Model)
-import TaskList.Msg as TaskList exposing (..)
+import Board.Model exposing (Model)
+import Board.Msg as Board exposing (..)
 
 
 update : Main.Msg -> Model -> Model
-update msgFor taskList =
+update msgFor board =
     case msgFor of
-        MsgForTaskList msg ->
-            updateTaskList msg taskList
+        MsgForBoard msg ->
+            updateBoard msg board
 
         _ ->
-            taskList
+            board
 
 
-updateTaskList : TaskList.Msg -> Model -> Model
-updateTaskList msg taskList =
+updateBoard : Board.Msg -> Model -> Model
+updateBoard msg board =
     case msg of
         Add id title ->
             if String.isEmpty title then
-                taskList
+                board
             else
-                taskList ++ [ newTask id title ]
+                { board | tasks = (board.tasks ++ [ newTask id title ]) }
 
         Delete id ->
-            List.filter (\t -> t.id /= id) taskList
+            { board | tasks = (List.filter (\t -> t.id /= id) board.tasks) }
 
         DeleteCompleted ->
-            List.filter (not << .completed) taskList
+            { board | tasks = (List.filter (not << .completed) board.tasks) }
 
         CheckAll isCompleted ->
             let
                 updateTask t =
                     UpdateTask.updateTask (Check isCompleted) t
             in
-                List.map updateTask taskList
+                { board | tasks = (List.map updateTask board.tasks) }
 
         MsgForTask id msg ->
-            updateTask id msg taskList
+            { board | tasks = (updateTask id msg board.tasks) }
 
 
-updateTask : Int -> Task.Msg -> Model -> Model
-updateTask id msg taskList =
+updateTask : Int -> Task.Msg -> List Task.Model -> List Task.Model
+updateTask id msg tasks =
     let
         updateTask task =
             if task.id == id then
@@ -54,7 +54,7 @@ updateTask id msg taskList =
             else
                 task
     in
-        List.map updateTask taskList
+        List.map updateTask tasks
 
 
 type alias FocusPort a =
@@ -64,7 +64,7 @@ type alias FocusPort a =
 updateCmd : FocusPort a -> Main.Msg -> Cmd a
 updateCmd focus msg =
     case msg of
-        MsgForTaskList (MsgForTask id (Editing _)) ->
+        MsgForBoard (MsgForTask id (Editing _)) ->
             focus ("#task-" ++ toString id)
 
         _ ->

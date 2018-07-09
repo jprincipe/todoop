@@ -2,11 +2,11 @@ module Msg exposing (..)
 
 import Control.Msg as Control
 import Task.Msg as Task
-import TaskList.Msg as TaskList
+import Board.Msg as Board
 
 
 type Msg
     = NoOp
     | MsgForTaskEntry Task.Msg
-    | MsgForTaskList TaskList.Msg
+    | MsgForBoard Board.Msg
     | MsgForControl Control.Msg

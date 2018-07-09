@@ -3,7 +3,7 @@ module Task.Update exposing (..)
 import Msg as Main exposing (..)
 import Task.Model exposing (Model, newTask)
 import Task.Msg as Task exposing (..)
-import TaskList.Msg exposing (..)
+import Board.Msg exposing (..)
 
 
 update : Main.Msg -> Model -> Model
@@ -12,7 +12,7 @@ update msgFor task =
         MsgForTaskEntry msg ->
             updateTask msg task
 
-        MsgForTaskList (Add id _) ->
+        MsgForBoard (Add id _) ->
             newTask (id + 1) ""
 
         _ ->

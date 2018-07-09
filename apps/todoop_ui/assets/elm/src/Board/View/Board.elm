@@ -1,16 +1,16 @@
-module TaskList.View.TaskList exposing (..)
+module Board.View.Board exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Msg as Main exposing (..)
-import Task.Model as Task
-import TaskList.View.TaskItem exposing (taskItem)
-import TaskList.Msg exposing (..)
+import Board.Model as Board
+import Board.View.TaskItem exposing (taskItem)
+import Board.Msg exposing (..)
 
 
-taskList : String -> List Task.Model -> Html Main.Msg
-taskList visibility tasks =
+board : String -> Board.Model -> Html Main.Msg
+board visibility board =
     let
         isVisible task =
             case visibility of
@@ -24,10 +24,10 @@ taskList visibility tasks =
                     True
 
         allCompleted =
-            List.all .completed tasks
+            List.all .completed board.tasks
 
         cssVisibility =
-            if List.isEmpty tasks then
+            if List.isEmpty board.tasks then
                 "hidden"
             else
                 "visible"
@@ -41,11 +41,11 @@ taskList visibility tasks =
                 , type_ "checkbox"
                 , name "toggle"
                 , checked allCompleted
-                , onClick (MsgForTaskList <| CheckAll (not allCompleted))
+                , onClick (MsgForBoard <| CheckAll (not allCompleted))
                 ]
                 []
             , label [ for "toggle-all" ]
                 [ text "Mark all as complete" ]
             , ul [ id "task-list" ]
-                (List.map taskItem (List.filter isVisible tasks))
+                (List.map taskItem (List.filter isVisible board.tasks))
             ]

@@ -3,12 +3,12 @@ module Model exposing (..)
 import Control.Model as Control
 import Msg exposing (Msg)
 import Task.Model as Task
-import TaskList.Model as TaskList
+import Board.Model as Board
 
 
 type alias Model =
     { taskEntry : Task.Model
-    , taskList : TaskList.Model
+    , board : Board.Model
     , control : Control.Model
     }
 
@@ -16,7 +16,7 @@ type alias Model =
 initialModel : Model
 initialModel =
     { taskEntry = Task.model
-    , taskList = TaskList.model
+    , board = Board.model
     , control = Control.model
     }
 

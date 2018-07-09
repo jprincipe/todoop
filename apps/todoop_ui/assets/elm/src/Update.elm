@@ -4,7 +4,7 @@ import Control.Update as Control
 import Model exposing (Model)
 import Msg exposing (..)
 import Task.Update as Task
-import TaskList.Update as TaskList
+import Board.Update as Board
 
 
 type alias FocusPort =
@@ -20,7 +20,7 @@ update : Msg -> Model -> Model
 update msg model =
     { model
         | taskEntry = Task.update msg model.taskEntry
-        , taskList = TaskList.update msg model.taskList
+        , board = Board.update msg model.board
         , control = Control.update msg model.control
     }
 
@@ -28,5 +28,5 @@ update msg model =
 updateCmd : FocusPort -> Msg -> Cmd Msg
 updateCmd focus msg =
     Cmd.batch
-        [ TaskList.updateCmd focus msg
+        [ Board.updateCmd focus msg
         ]

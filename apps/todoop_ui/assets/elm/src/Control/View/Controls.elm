@@ -5,18 +5,18 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Control.Msg exposing (..)
 import Msg as Main exposing (..)
-import Task.Model as Task
-import TaskList.Msg exposing (..)
+import Board.Model as Board exposing (..)
+import Board.Msg exposing (..)
 
 
-controls : String -> List Task.Model -> Html Main.Msg
-controls visibility tasks =
+controls : String -> Board.Model -> Html Main.Msg
+controls visibility board =
     let
         tasksCompleted =
-            List.length (List.filter .completed tasks)
+            List.length (List.filter .completed board.tasks)
 
         tasksLeft =
-            List.length tasks - tasksCompleted
+            List.length board.tasks - tasksCompleted
 
         item_ =
             if tasksLeft == 1 then
@@ -26,7 +26,7 @@ controls visibility tasks =
     in
         footer
             [ id "footer"
-            , hidden (List.isEmpty tasks)
+            , hidden (List.isEmpty board.tasks)
             ]
             [ span [ id "task-count" ]
                 [ strong [] [ text (toString tasksLeft) ]
@@ -43,7 +43,7 @@ controls visibility tasks =
                 [ class "clear-completed"
                 , id "clear-completed"
                 , hidden (tasksCompleted == 0)
-                , onClick (MsgForTaskList DeleteCompleted)
+                , onClick (MsgForBoard DeleteCompleted)
                 ]
                 [ text ("Clear completed (" ++ toString tasksCompleted ++ ")") ]
             ]

@@ -7,15 +7,15 @@ import Html.Lazy exposing (lazy, lazy2)
 import Model exposing (Model)
 import Msg exposing (..)
 import Task.View.TaskEntry as TaskEntryView
-import TaskList.View.TaskList as TaskListView
+import Board.View.Board as BoardView
 import View.InfoFooter exposing (infoFooter)
 
 
 view : Model -> Html Msg
 view model =
     let
-        taskList =
-            model.taskList
+        board =
+            model.board
 
         taskEntry =
             model.taskEntry
@@ -29,8 +29,8 @@ view model =
             ]
             [ section [ id "todoop-app" ]
                 [ lazy TaskEntryView.taskEntry taskEntry
-                , lazy2 TaskListView.taskList control.visibility taskList
-                , lazy2 ControlsView.controls control.visibility taskList
+                , lazy2 BoardView.board control.visibility board
+                , lazy2 ControlsView.controls control.visibility board
                 ]
             , infoFooter
             ]

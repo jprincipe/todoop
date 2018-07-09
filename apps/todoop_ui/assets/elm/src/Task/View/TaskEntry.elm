@@ -8,7 +8,7 @@ import Msg as Main exposing (..)
 import Task.Model exposing (Model)
 import Task.Msg exposing (..)
 import Task.View.Events exposing (onEnter)
-import TaskList.Msg exposing (..)
+import Board.Msg exposing (..)
 
 
 taskEntry : Model -> Html Main.Msg
@@ -22,7 +22,7 @@ taskEntry taskEntry =
             , value taskEntry.title
             , name "newTask"
             , on "input" (Json.map (MsgForTaskEntry << Update) targetValue)
-            , onEnter NoOp (MsgForTaskList <| Add taskEntry.id taskEntry.title)
+            , onEnter NoOp (MsgForBoard <| Add taskEntry.id taskEntry.title)
             ]
             []
         ]

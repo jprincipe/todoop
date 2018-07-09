@@ -12420,14 +12420,30 @@ var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
 var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
 var _elm_lang$html$Html_Lazy$lazy = _elm_lang$virtual_dom$VirtualDom$lazy;
 
-var _user$project$Control_Model$model = {visibility: 'All'};
-var _user$project$Control_Model$Model = function (a) {
-	return {visibility: a};
-};
+var _user$project$Task_Model$newTask = F2(
+	function (id, title) {
+		return {title: title, description: '', completed: false, editing: false, id: id};
+	});
+var _user$project$Task_Model$model = A2(_user$project$Task_Model$newTask, 1, '');
+var _user$project$Task_Model$Model = F5(
+	function (a, b, c, d, e) {
+		return {title: a, description: b, completed: c, editing: d, id: e};
+	});
 
-var _user$project$Control_Msg$ChangeVisibility = function (a) {
-	return {ctor: 'ChangeVisibility', _0: a};
-};
+var _user$project$Board_Model$newBoard = F2(
+	function (id, name) {
+		return {
+			name: name,
+			description: '',
+			id: id,
+			tasks: {ctor: '[]'}
+		};
+	});
+var _user$project$Board_Model$model = A2(_user$project$Board_Model$newBoard, 1, '');
+var _user$project$Board_Model$Model = F4(
+	function (a, b, c, d) {
+		return {name: a, description: b, id: c, tasks: d};
+	});
 
 var _user$project$Task_Msg$Update = function (a) {
 	return {ctor: 'Update', _0: a};
@@ -12439,32 +12455,439 @@ var _user$project$Task_Msg$Check = function (a) {
 	return {ctor: 'Check', _0: a};
 };
 
-var _user$project$TaskList_Msg$MsgForTask = F2(
+var _user$project$Board_Msg$MsgForTask = F2(
 	function (a, b) {
 		return {ctor: 'MsgForTask', _0: a, _1: b};
 	});
-var _user$project$TaskList_Msg$CheckAll = function (a) {
+var _user$project$Board_Msg$CheckAll = function (a) {
 	return {ctor: 'CheckAll', _0: a};
 };
-var _user$project$TaskList_Msg$DeleteCompleted = {ctor: 'DeleteCompleted'};
-var _user$project$TaskList_Msg$Delete = function (a) {
+var _user$project$Board_Msg$DeleteCompleted = {ctor: 'DeleteCompleted'};
+var _user$project$Board_Msg$Delete = function (a) {
 	return {ctor: 'Delete', _0: a};
 };
-var _user$project$TaskList_Msg$Add = F2(
+var _user$project$Board_Msg$Add = F2(
 	function (a, b) {
 		return {ctor: 'Add', _0: a, _1: b};
 	});
 
+var _user$project$Control_Msg$ChangeVisibility = function (a) {
+	return {ctor: 'ChangeVisibility', _0: a};
+};
+
 var _user$project$Msg$MsgForControl = function (a) {
 	return {ctor: 'MsgForControl', _0: a};
 };
-var _user$project$Msg$MsgForTaskList = function (a) {
-	return {ctor: 'MsgForTaskList', _0: a};
+var _user$project$Msg$MsgForBoard = function (a) {
+	return {ctor: 'MsgForBoard', _0: a};
 };
 var _user$project$Msg$MsgForTaskEntry = function (a) {
 	return {ctor: 'MsgForTaskEntry', _0: a};
 };
 var _user$project$Msg$NoOp = {ctor: 'NoOp'};
+
+var _user$project$Task_Update$updateTask = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Check':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{completed: _p0._0});
+			case 'Editing':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{editing: _p0._0});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{title: _p0._0});
+		}
+	});
+var _user$project$Task_Update$update = F2(
+	function (msgFor, task) {
+		var _p1 = msgFor;
+		_v1_2:
+		do {
+			switch (_p1.ctor) {
+				case 'MsgForTaskEntry':
+					return A2(_user$project$Task_Update$updateTask, _p1._0, task);
+				case 'MsgForBoard':
+					if (_p1._0.ctor === 'Add') {
+						return A2(_user$project$Task_Model$newTask, _p1._0._0 + 1, '');
+					} else {
+						break _v1_2;
+					}
+				default:
+					break _v1_2;
+			}
+		} while(false);
+		return task;
+	});
+
+var _user$project$Board_Update$updateCmd = F2(
+	function (focus, msg) {
+		var _p0 = msg;
+		if (((_p0.ctor === 'MsgForBoard') && (_p0._0.ctor === 'MsgForTask')) && (_p0._0._1.ctor === 'Editing')) {
+			return focus(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'#task-',
+					_elm_lang$core$Basics$toString(_p0._0._0)));
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
+	});
+var _user$project$Board_Update$updateTask = F3(
+	function (id, msg, tasks) {
+		var updateTask = function (task) {
+			return _elm_lang$core$Native_Utils.eq(task.id, id) ? A2(_user$project$Task_Update$updateTask, msg, task) : task;
+		};
+		return A2(_elm_lang$core$List$map, updateTask, tasks);
+	});
+var _user$project$Board_Update$updateBoard = F2(
+	function (msg, board) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'Add':
+				var _p2 = _p1._1;
+				return _elm_lang$core$String$isEmpty(_p2) ? board : _elm_lang$core$Native_Utils.update(
+					board,
+					{
+						tasks: A2(
+							_elm_lang$core$Basics_ops['++'],
+							board.tasks,
+							{
+								ctor: '::',
+								_0: A2(_user$project$Task_Model$newTask, _p1._0, _p2),
+								_1: {ctor: '[]'}
+							})
+					});
+			case 'Delete':
+				return _elm_lang$core$Native_Utils.update(
+					board,
+					{
+						tasks: A2(
+							_elm_lang$core$List$filter,
+							function (t) {
+								return !_elm_lang$core$Native_Utils.eq(t.id, _p1._0);
+							},
+							board.tasks)
+					});
+			case 'DeleteCompleted':
+				return _elm_lang$core$Native_Utils.update(
+					board,
+					{
+						tasks: A2(
+							_elm_lang$core$List$filter,
+							function (_p3) {
+								return !function (_) {
+									return _.completed;
+								}(_p3);
+							},
+							board.tasks)
+					});
+			case 'CheckAll':
+				var updateTask = function (t) {
+					return A2(
+						_user$project$Task_Update$updateTask,
+						_user$project$Task_Msg$Check(_p1._0),
+						t);
+				};
+				return _elm_lang$core$Native_Utils.update(
+					board,
+					{
+						tasks: A2(_elm_lang$core$List$map, updateTask, board.tasks)
+					});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					board,
+					{
+						tasks: A3(_user$project$Board_Update$updateTask, _p1._0, _p1._1, board.tasks)
+					});
+		}
+	});
+var _user$project$Board_Update$update = F2(
+	function (msgFor, board) {
+		var _p4 = msgFor;
+		if (_p4.ctor === 'MsgForBoard') {
+			return A2(_user$project$Board_Update$updateBoard, _p4._0, board);
+		} else {
+			return board;
+		}
+	});
+
+var _user$project$Task_View_Events$onEnter = F2(
+	function (fail, success) {
+		var tagger = function (code) {
+			return _elm_lang$core$Native_Utils.eq(code, 13) ? success : fail;
+		};
+		return A2(
+			_elm_lang$html$Html_Events$on,
+			'keyup',
+			A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$keyCode));
+	});
+
+var _user$project$Board_View_TaskItem$taskItem = function (task) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'completed', _1: task.completed},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'editing', _1: task.editing},
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('view'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('toggle'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(task.completed),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForBoard(
+												A2(
+													_user$project$Board_Msg$MsgForTask,
+													task.id,
+													_user$project$Task_Msg$Check(!task.completed)))),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onDoubleClick(
+									_user$project$Msg$MsgForBoard(
+										A2(
+											_user$project$Board_Msg$MsgForTask,
+											task.id,
+											_user$project$Task_Msg$Editing(true)))),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(task.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('destroy'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForBoard(
+												_user$project$Board_Msg$Delete(task.id))),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('edit'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value(task.title),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$name('title'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$id(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											'task-',
+											_elm_lang$core$Basics$toString(task.id))),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html_Events$on,
+											'input',
+											A2(
+												_elm_lang$core$Json_Decode$map,
+												function (_p0) {
+													return _user$project$Msg$MsgForBoard(
+														A2(
+															_user$project$Board_Msg$MsgForTask,
+															task.id,
+															_user$project$Task_Msg$Update(_p0)));
+												},
+												_elm_lang$html$Html_Events$targetValue)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onBlur(
+												_user$project$Msg$MsgForBoard(
+													A2(
+														_user$project$Board_Msg$MsgForTask,
+														task.id,
+														_user$project$Task_Msg$Editing(false)))),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_user$project$Task_View_Events$onEnter,
+													_user$project$Msg$NoOp,
+													_user$project$Msg$MsgForBoard(
+														A2(
+															_user$project$Board_Msg$MsgForTask,
+															task.id,
+															_user$project$Task_Msg$Editing(false)))),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
+var _user$project$Board_View_Board$board = F2(
+	function (visibility, board) {
+		var cssVisibility = _elm_lang$core$List$isEmpty(board.tasks) ? 'hidden' : 'visible';
+		var allCompleted = A2(
+			_elm_lang$core$List$all,
+			function (_) {
+				return _.completed;
+			},
+			board.tasks);
+		var isVisible = function (task) {
+			var _p0 = visibility;
+			switch (_p0) {
+				case 'Completed':
+					return task.completed;
+				case 'Active':
+					return !task.completed;
+				default:
+					return true;
+			}
+		};
+		return A2(
+			_elm_lang$html$Html$section,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id('main'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'visibility', _1: cssVisibility},
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('toggle-all'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$name('toggle'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$checked(allCompleted),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Msg$MsgForBoard(
+												_user$project$Board_Msg$CheckAll(!allCompleted))),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$for('toggle-all'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Mark all as complete'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ul,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$id('task-list'),
+								_1: {ctor: '[]'}
+							},
+							A2(
+								_elm_lang$core$List$map,
+								_user$project$Board_View_TaskItem$taskItem,
+								A2(_elm_lang$core$List$filter, isVisible, board.tasks))),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+
+var _user$project$Control_Model$model = {visibility: 'All'};
+var _user$project$Control_Model$Model = function (a) {
+	return {visibility: a};
+};
 
 var _user$project$Control_Update$updateControl = F2(
 	function (msg, model) {
@@ -12481,16 +12904,6 @@ var _user$project$Control_Update$update = F2(
 		} else {
 			return control;
 		}
-	});
-
-var _user$project$Task_Model$newTask = F2(
-	function (id, title) {
-		return {title: title, description: '', completed: false, editing: false, id: id};
-	});
-var _user$project$Task_Model$model = A2(_user$project$Task_Model$newTask, 1, '');
-var _user$project$Task_Model$Model = F5(
-	function (a, b, c, d, e) {
-		return {title: a, description: b, completed: c, editing: d, id: e};
 	});
 
 var _user$project$Control_View_Controls$visibilitySwap = F3(
@@ -12535,15 +12948,15 @@ var _user$project$Control_View_Controls$visibilitySwap = F3(
 			});
 	});
 var _user$project$Control_View_Controls$controls = F2(
-	function (visibility, tasks) {
+	function (visibility, board) {
 		var tasksCompleted = _elm_lang$core$List$length(
 			A2(
 				_elm_lang$core$List$filter,
 				function (_) {
 					return _.completed;
 				},
-				tasks));
-		var tasksLeft = _elm_lang$core$List$length(tasks) - tasksCompleted;
+				board.tasks));
+		var tasksLeft = _elm_lang$core$List$length(board.tasks) - tasksCompleted;
 		var item_ = _elm_lang$core$Native_Utils.eq(tasksLeft, 1) ? ' item' : ' items';
 		return A2(
 			_elm_lang$html$Html$footer,
@@ -12553,7 +12966,7 @@ var _user$project$Control_View_Controls$controls = F2(
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$hidden(
-						_elm_lang$core$List$isEmpty(tasks)),
+						_elm_lang$core$List$isEmpty(board.tasks)),
 					_1: {ctor: '[]'}
 				}
 			},
@@ -12631,7 +13044,7 @@ var _user$project$Control_View_Controls$controls = F2(
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Msg$MsgForTaskList(_user$project$TaskList_Msg$DeleteCompleted)),
+												_user$project$Msg$MsgForBoard(_user$project$Board_Msg$DeleteCompleted)),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -12655,8 +13068,6 @@ var _user$project$Control_View_Controls$controls = F2(
 			});
 	});
 
-var _user$project$TaskList_Model$model = {ctor: '[]'};
-
 var _user$project$Model$withSetStorage = F2(
 	function (setStorage, _p0) {
 		var _p1 = _p0;
@@ -12676,7 +13087,7 @@ var _user$project$Model$withSetStorage = F2(
 				})
 		};
 	});
-var _user$project$Model$initialModel = {taskEntry: _user$project$Task_Model$model, taskList: _user$project$TaskList_Model$model, control: _user$project$Control_Model$model};
+var _user$project$Model$initialModel = {taskEntry: _user$project$Task_Model$model, board: _user$project$Board_Model$model, control: _user$project$Control_Model$model};
 var _user$project$Model$init = function (savedModel) {
 	return A2(
 		_elm_lang$core$Platform_Cmd_ops['!'],
@@ -12685,118 +13096,7 @@ var _user$project$Model$init = function (savedModel) {
 };
 var _user$project$Model$Model = F3(
 	function (a, b, c) {
-		return {taskEntry: a, taskList: b, control: c};
-	});
-
-var _user$project$Task_Update$updateTask = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Check':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{completed: _p0._0});
-			case 'Editing':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{editing: _p0._0});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{title: _p0._0});
-		}
-	});
-var _user$project$Task_Update$update = F2(
-	function (msgFor, task) {
-		var _p1 = msgFor;
-		_v1_2:
-		do {
-			switch (_p1.ctor) {
-				case 'MsgForTaskEntry':
-					return A2(_user$project$Task_Update$updateTask, _p1._0, task);
-				case 'MsgForTaskList':
-					if (_p1._0.ctor === 'Add') {
-						return A2(_user$project$Task_Model$newTask, _p1._0._0 + 1, '');
-					} else {
-						break _v1_2;
-					}
-				default:
-					break _v1_2;
-			}
-		} while(false);
-		return task;
-	});
-
-var _user$project$TaskList_Update$updateCmd = F2(
-	function (focus, msg) {
-		var _p0 = msg;
-		if (((_p0.ctor === 'MsgForTaskList') && (_p0._0.ctor === 'MsgForTask')) && (_p0._0._1.ctor === 'Editing')) {
-			return focus(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'#task-',
-					_elm_lang$core$Basics$toString(_p0._0._0)));
-		} else {
-			return _elm_lang$core$Platform_Cmd$none;
-		}
-	});
-var _user$project$TaskList_Update$updateTask = F3(
-	function (id, msg, taskList) {
-		var updateTask = function (task) {
-			return _elm_lang$core$Native_Utils.eq(task.id, id) ? A2(_user$project$Task_Update$updateTask, msg, task) : task;
-		};
-		return A2(_elm_lang$core$List$map, updateTask, taskList);
-	});
-var _user$project$TaskList_Update$updateTaskList = F2(
-	function (msg, taskList) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'Add':
-				var _p2 = _p1._1;
-				return _elm_lang$core$String$isEmpty(_p2) ? taskList : A2(
-					_elm_lang$core$Basics_ops['++'],
-					taskList,
-					{
-						ctor: '::',
-						_0: A2(_user$project$Task_Model$newTask, _p1._0, _p2),
-						_1: {ctor: '[]'}
-					});
-			case 'Delete':
-				return A2(
-					_elm_lang$core$List$filter,
-					function (t) {
-						return !_elm_lang$core$Native_Utils.eq(t.id, _p1._0);
-					},
-					taskList);
-			case 'DeleteCompleted':
-				return A2(
-					_elm_lang$core$List$filter,
-					function (_p3) {
-						return !function (_) {
-							return _.completed;
-						}(_p3);
-					},
-					taskList);
-			case 'CheckAll':
-				var updateTask = function (t) {
-					return A2(
-						_user$project$Task_Update$updateTask,
-						_user$project$Task_Msg$Check(_p1._0),
-						t);
-				};
-				return A2(_elm_lang$core$List$map, updateTask, taskList);
-			default:
-				return A3(_user$project$TaskList_Update$updateTask, _p1._0, _p1._1, taskList);
-		}
-	});
-var _user$project$TaskList_Update$update = F2(
-	function (msgFor, taskList) {
-		var _p4 = msgFor;
-		if (_p4.ctor === 'MsgForTaskList') {
-			return A2(_user$project$TaskList_Update$updateTaskList, _p4._0, taskList);
-		} else {
-			return taskList;
-		}
+		return {taskEntry: a, board: b, control: c};
 	});
 
 var _user$project$Update$updateCmd = F2(
@@ -12804,7 +13104,7 @@ var _user$project$Update$updateCmd = F2(
 		return _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
-				_0: A2(_user$project$TaskList_Update$updateCmd, focus, msg),
+				_0: A2(_user$project$Board_Update$updateCmd, focus, msg),
 				_1: {ctor: '[]'}
 			});
 	});
@@ -12814,7 +13114,7 @@ var _user$project$Update$update = F2(
 			model,
 			{
 				taskEntry: A2(_user$project$Task_Update$update, msg, model.taskEntry),
-				taskList: A2(_user$project$TaskList_Update$update, msg, model.taskList),
+				board: A2(_user$project$Board_Update$update, msg, model.board),
 				control: A2(_user$project$Control_Update$update, msg, model.control)
 			});
 	});
@@ -12825,17 +13125,6 @@ var _user$project$Update$updateWithCmd = F3(
 			_0: A2(_user$project$Update$update, msg, model),
 			_1: A2(_user$project$Update$updateCmd, focus, msg)
 		};
-	});
-
-var _user$project$Task_View_Events$onEnter = F2(
-	function (fail, success) {
-		var tagger = function (code) {
-			return _elm_lang$core$Native_Utils.eq(code, 13) ? success : fail;
-		};
-		return A2(
-			_elm_lang$html$Html_Events$on,
-			'keyup',
-			A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$keyCode));
 	});
 
 var _user$project$Task_View_TaskEntry$taskEntry = function (taskEntry) {
@@ -12892,8 +13181,8 @@ var _user$project$Task_View_TaskEntry$taskEntry = function (taskEntry) {
 												_0: A2(
 													_user$project$Task_View_Events$onEnter,
 													_user$project$Msg$NoOp,
-													_user$project$Msg$MsgForTaskList(
-														A2(_user$project$TaskList_Msg$Add, taskEntry.id, taskEntry.title))),
+													_user$project$Msg$MsgForBoard(
+														A2(_user$project$Board_Msg$Add, taskEntry.id, taskEntry.title))),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -12907,262 +13196,6 @@ var _user$project$Task_View_TaskEntry$taskEntry = function (taskEntry) {
 			}
 		});
 };
-
-var _user$project$TaskList_View_TaskItem$taskItem = function (task) {
-	return A2(
-		_elm_lang$html$Html$li,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$classList(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'completed', _1: task.completed},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'editing', _1: task.editing},
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('view'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$input,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('toggle'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$checked(task.completed),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTaskList(
-												A2(
-													_user$project$TaskList_Msg$MsgForTask,
-													task.id,
-													_user$project$Task_Msg$Check(!task.completed)))),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$label,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onDoubleClick(
-									_user$project$Msg$MsgForTaskList(
-										A2(
-											_user$project$TaskList_Msg$MsgForTask,
-											task.id,
-											_user$project$Task_Msg$Editing(true)))),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(task.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('destroy'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTaskList(
-												_user$project$TaskList_Msg$Delete(task.id))),
-										_1: {ctor: '[]'}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('edit'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$value(task.title),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$name('title'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$id(
-										A2(
-											_elm_lang$core$Basics_ops['++'],
-											'task-',
-											_elm_lang$core$Basics$toString(task.id))),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html_Events$on,
-											'input',
-											A2(
-												_elm_lang$core$Json_Decode$map,
-												function (_p0) {
-													return _user$project$Msg$MsgForTaskList(
-														A2(
-															_user$project$TaskList_Msg$MsgForTask,
-															task.id,
-															_user$project$Task_Msg$Update(_p0)));
-												},
-												_elm_lang$html$Html_Events$targetValue)),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onBlur(
-												_user$project$Msg$MsgForTaskList(
-													A2(
-														_user$project$TaskList_Msg$MsgForTask,
-														task.id,
-														_user$project$Task_Msg$Editing(false)))),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_user$project$Task_View_Events$onEnter,
-													_user$project$Msg$NoOp,
-													_user$project$Msg$MsgForTaskList(
-														A2(
-															_user$project$TaskList_Msg$MsgForTask,
-															task.id,
-															_user$project$Task_Msg$Editing(false)))),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-
-var _user$project$TaskList_View_TaskList$taskList = F2(
-	function (visibility, tasks) {
-		var cssVisibility = _elm_lang$core$List$isEmpty(tasks) ? 'hidden' : 'visible';
-		var allCompleted = A2(
-			_elm_lang$core$List$all,
-			function (_) {
-				return _.completed;
-			},
-			tasks);
-		var isVisible = function (task) {
-			var _p0 = visibility;
-			switch (_p0) {
-				case 'Completed':
-					return task.completed;
-				case 'Active':
-					return !task.completed;
-				default:
-					return true;
-			}
-		};
-		return A2(
-			_elm_lang$html$Html$section,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$id('main'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$style(
-						{
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'visibility', _1: cssVisibility},
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$input,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$id('toggle-all'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$type_('checkbox'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$name('toggle'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$checked(allCompleted),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Msg$MsgForTaskList(
-												_user$project$TaskList_Msg$CheckAll(!allCompleted))),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$label,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$for('toggle-all'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Mark all as complete'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$ul,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$id('task-list'),
-								_1: {ctor: '[]'}
-							},
-							A2(
-								_elm_lang$core$List$map,
-								_user$project$TaskList_View_TaskItem$taskItem,
-								A2(_elm_lang$core$List$filter, isVisible, tasks))),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	});
 
 var _user$project$View_InfoFooter$infoFooter = A2(
 	_elm_lang$html$Html$footer,
@@ -13187,7 +13220,7 @@ var _user$project$View_InfoFooter$infoFooter = A2(
 var _user$project$View_TodoopApp$view = function (model) {
 	var control = model.control;
 	var taskEntry = model.taskEntry;
-	var taskList = model.taskList;
+	var board = model.board;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -13218,10 +13251,10 @@ var _user$project$View_TodoopApp$view = function (model) {
 					_0: A2(_elm_lang$html$Html_Lazy$lazy, _user$project$Task_View_TaskEntry$taskEntry, taskEntry),
 					_1: {
 						ctor: '::',
-						_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$TaskList_View_TaskList$taskList, control.visibility, taskList),
+						_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Board_View_Board$board, control.visibility, board),
 						_1: {
 							ctor: '::',
-							_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Control_View_Controls$controls, control.visibility, taskList),
+							_0: A3(_elm_lang$html$Html_Lazy$lazy2, _user$project$Control_View_Controls$controls, control.visibility, board),
 							_1: {ctor: '[]'}
 						}
 					}
@@ -13239,10 +13272,15 @@ var _user$project$Main$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
 	function (v) {
 		return {
 			taskEntry: {title: v.taskEntry.title, description: v.taskEntry.description, completed: v.taskEntry.completed, editing: v.taskEntry.editing, id: v.taskEntry.id},
-			taskList: _elm_lang$core$Native_List.toArray(v.taskList).map(
-				function (v) {
-					return {title: v.title, description: v.description, completed: v.completed, editing: v.editing, id: v.id};
-				}),
+			board: {
+				name: v.board.name,
+				description: v.board.description,
+				id: v.board.id,
+				tasks: _elm_lang$core$Native_List.toArray(v.board.tasks).map(
+					function (v) {
+						return {title: v.title, description: v.description, completed: v.completed, editing: v.editing, id: v.id};
+					})
+			},
 			control: {visibility: v.control.visibility}
 		};
 	});
@@ -13277,89 +13315,113 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 					_elm_lang$core$Maybe$Just,
 					A2(
 						_elm_lang$core$Json_Decode$andThen,
-						function (control) {
+						function (board) {
 							return A2(
 								_elm_lang$core$Json_Decode$andThen,
-								function (taskEntry) {
+								function (control) {
 									return A2(
 										_elm_lang$core$Json_Decode$andThen,
-										function (taskList) {
+										function (taskEntry) {
 											return _elm_lang$core$Json_Decode$succeed(
-												{control: control, taskEntry: taskEntry, taskList: taskList});
+												{board: board, control: control, taskEntry: taskEntry});
 										},
 										A2(
 											_elm_lang$core$Json_Decode$field,
-											'taskList',
-											_elm_lang$core$Json_Decode$list(
-												A2(
-													_elm_lang$core$Json_Decode$andThen,
-													function (completed) {
-														return A2(
-															_elm_lang$core$Json_Decode$andThen,
-															function (description) {
-																return A2(
-																	_elm_lang$core$Json_Decode$andThen,
-																	function (editing) {
-																		return A2(
-																			_elm_lang$core$Json_Decode$andThen,
-																			function (id) {
-																				return A2(
-																					_elm_lang$core$Json_Decode$andThen,
-																					function (title) {
-																						return _elm_lang$core$Json_Decode$succeed(
-																							{completed: completed, description: description, editing: editing, id: id, title: title});
-																					},
-																					A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
-																			},
-																			A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
-																	},
-																	A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
-															},
-															A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
-													},
-													A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
+											'taskEntry',
+											A2(
+												_elm_lang$core$Json_Decode$andThen,
+												function (completed) {
+													return A2(
+														_elm_lang$core$Json_Decode$andThen,
+														function (description) {
+															return A2(
+																_elm_lang$core$Json_Decode$andThen,
+																function (editing) {
+																	return A2(
+																		_elm_lang$core$Json_Decode$andThen,
+																		function (id) {
+																			return A2(
+																				_elm_lang$core$Json_Decode$andThen,
+																				function (title) {
+																					return _elm_lang$core$Json_Decode$succeed(
+																						{completed: completed, description: description, editing: editing, id: id, title: title});
+																				},
+																				A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
+																		},
+																		A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																},
+																A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+														},
+														A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+												},
+												A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool))));
 								},
 								A2(
 									_elm_lang$core$Json_Decode$field,
-									'taskEntry',
+									'control',
 									A2(
 										_elm_lang$core$Json_Decode$andThen,
-										function (completed) {
-											return A2(
-												_elm_lang$core$Json_Decode$andThen,
-												function (description) {
-													return A2(
-														_elm_lang$core$Json_Decode$andThen,
-														function (editing) {
-															return A2(
-																_elm_lang$core$Json_Decode$andThen,
-																function (id) {
-																	return A2(
-																		_elm_lang$core$Json_Decode$andThen,
-																		function (title) {
-																			return _elm_lang$core$Json_Decode$succeed(
-																				{completed: completed, description: description, editing: editing, id: id, title: title});
-																		},
-																		A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
-																},
-																A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
-														},
-														A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
-												},
-												A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+										function (visibility) {
+											return _elm_lang$core$Json_Decode$succeed(
+												{visibility: visibility});
 										},
-										A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool))));
+										A2(_elm_lang$core$Json_Decode$field, 'visibility', _elm_lang$core$Json_Decode$string))));
 						},
 						A2(
 							_elm_lang$core$Json_Decode$field,
-							'control',
+							'board',
 							A2(
 								_elm_lang$core$Json_Decode$andThen,
-								function (visibility) {
-									return _elm_lang$core$Json_Decode$succeed(
-										{visibility: visibility});
+								function (description) {
+									return A2(
+										_elm_lang$core$Json_Decode$andThen,
+										function (id) {
+											return A2(
+												_elm_lang$core$Json_Decode$andThen,
+												function (name) {
+													return A2(
+														_elm_lang$core$Json_Decode$andThen,
+														function (tasks) {
+															return _elm_lang$core$Json_Decode$succeed(
+																{description: description, id: id, name: name, tasks: tasks});
+														},
+														A2(
+															_elm_lang$core$Json_Decode$field,
+															'tasks',
+															_elm_lang$core$Json_Decode$list(
+																A2(
+																	_elm_lang$core$Json_Decode$andThen,
+																	function (completed) {
+																		return A2(
+																			_elm_lang$core$Json_Decode$andThen,
+																			function (description) {
+																				return A2(
+																					_elm_lang$core$Json_Decode$andThen,
+																					function (editing) {
+																						return A2(
+																							_elm_lang$core$Json_Decode$andThen,
+																							function (id) {
+																								return A2(
+																									_elm_lang$core$Json_Decode$andThen,
+																									function (title) {
+																										return _elm_lang$core$Json_Decode$succeed(
+																											{completed: completed, description: description, editing: editing, id: id, title: title});
+																									},
+																									A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
+																							},
+																							A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
+																					},
+																					A2(_elm_lang$core$Json_Decode$field, 'editing', _elm_lang$core$Json_Decode$bool));
+																			},
+																			A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string));
+																	},
+																	A2(_elm_lang$core$Json_Decode$field, 'completed', _elm_lang$core$Json_Decode$bool)))));
+												},
+												A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string));
+										},
+										A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int));
 								},
-								A2(_elm_lang$core$Json_Decode$field, 'visibility', _elm_lang$core$Json_Decode$string))))),
+								A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string))))),
 				_1: {ctor: '[]'}
 			}
 		}));
@@ -13367,7 +13429,7 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Control.Msg.Msg":{"args":[],"tags":{"ChangeVisibility":["String"]}},"Msg.Msg":{"args":[],"tags":{"MsgForControl":["Control.Msg.Msg"],"MsgForTaskList":["TaskList.Msg.Msg"],"MsgForTaskEntry":["Task.Msg.Msg"],"NoOp":[]}},"TaskList.Msg.Msg":{"args":[],"tags":{"Add":["Int","String"],"DeleteCompleted":[],"MsgForTask":["Int","Task.Msg.Msg"],"CheckAll":["Bool"],"Delete":["Int"]}},"Task.Msg.Msg":{"args":[],"tags":{"Editing":["Bool"],"Check":["Bool"],"Update":["String"]}}},"aliases":{},"message":"Msg.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Control.Msg.Msg":{"args":[],"tags":{"ChangeVisibility":["String"]}},"Msg.Msg":{"args":[],"tags":{"MsgForControl":["Control.Msg.Msg"],"MsgForBoard":["Board.Msg.Msg"],"MsgForTaskEntry":["Task.Msg.Msg"],"NoOp":[]}},"Board.Msg.Msg":{"args":[],"tags":{"Add":["Int","String"],"DeleteCompleted":[],"MsgForTask":["Int","Task.Msg.Msg"],"CheckAll":["Bool"],"Delete":["Int"]}},"Task.Msg.Msg":{"args":[],"tags":{"Editing":["Bool"],"Check":["Bool"],"Update":["String"]}}},"aliases":{},"message":"Msg.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

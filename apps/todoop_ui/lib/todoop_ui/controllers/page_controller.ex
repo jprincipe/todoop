@@ -1,4 +1,4 @@
-defmodule TodoopUi.HomeController do
+defmodule TodoopUi.PageController do
   use TodoopUi, :controller
 
   def index(conn, _params) do

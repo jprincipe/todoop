@@ -17,11 +17,6 @@ defmodule TodoopUi.Router do
     # Use the default browser stack
     pipe_through(:browser)
 
-    get("/", HomeController, :index)
+    get("/*anything", PageController, :index)
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", TodoopUi do
-  #   pipe_through :api
-  # end
 end

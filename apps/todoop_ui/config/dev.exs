@@ -8,10 +8,12 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :todoop_ui, TodoopUi.Endpoint,
   http: [port: 4000],
+  static_url: [scheme: "http", host: "localhost", port: 8080],
+  headers: [{"access-control-allow-origin", "*"}],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [npm: ["run", "dev", cd: Path.expand("../assets", __DIR__)]]
 
 # ## SSL Support
 #
